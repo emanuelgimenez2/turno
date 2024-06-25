@@ -12,7 +12,7 @@ Esta desarrollada con JavaScript utilizando React.
 Pruebalo y dime si te gusto.
 
 ## Autor ✒️
- - *Proyecto Grupal* -
+ - *Proyecto* -
 
 
 
