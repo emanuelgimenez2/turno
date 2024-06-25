@@ -1,16 +1,65 @@
-/* /src/components/Home/Home.css */
 .home-container {
-    padding: 2rem;
-    text-align: center;
-  }
-  
-  .home-container h1 {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-  }
-  
-  .home-container p {
-    font-size: 1.2rem;
-    color: #555;
-  }
-  
+  max-width: 800px; /* Ancho máximo del contenido */
+  margin: 0 auto; /* Centrar en la pantalla */
+  padding: 20px; /* Espaciado interno */
+  background-color: #f9f9f9; /* Color de fondo */
+  border: 1px solid #ccc; /* Borde del contenedor */
+  border-radius: 10px; /* Bordes redondeados */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra */
+}
+
+.home-container h1 {
+  text-align: center; /* Centrar título */
+}
+
+.home-container p {
+  text-align: center; /* Centrar párrafos */
+  margin-bottom: 20px; /* Espacio inferior */
+}
+
+.info-section {
+  margin-bottom: 40px; /* Espacio inferior */
+}
+
+.tables-section {
+  display: grid; /* Estilo de diseño en cuadrícula */
+  gap: 20px; /* Espacio entre las tablas */
+}
+
+.table-container {
+  padding: 20px; /* Espaciado interno */
+  background-color: #fff; /* Fondo de las tablas */
+  border: 1px solid #ddd; /* Borde de las tablas */
+  border-radius: 8px; /* Bordes redondeados */
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1); /* Sombra */
+}
+
+.table-container h3 {
+  margin-top: 0; /* Eliminar margen superior del título */
+}
+
+.data-table {
+  width: 100%; /* Ancho completo de la tabla */
+  border-collapse: collapse; /* Colapso de bordes de tabla */
+  margin-top: 10px; /* Margen superior */
+}
+
+.data-table th,
+.data-table td {
+  padding: 10px; /* Espaciado interno de celdas */
+  text-align: left; /* Alineación del texto */
+  border-bottom: 1px solid #ddd; /* Borde inferior de celdas */
+}
+
+.data-table th {
+  background-color: #f2f2f2; /* Color de fondo del encabezado */
+}
+
+.data-table td ul {
+  margin-top: 5px; /* Margen superior de la lista */
+  padding-left: 20px; /* Sangría del contenido de la lista */
+}
+
+.data-table td ul li {
+  list-style-type: disc; /* Estilo de viñetas */
+}

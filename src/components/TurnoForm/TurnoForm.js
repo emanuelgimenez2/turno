@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import './TurnoForm.css';
+import SuccessMessage from "../SuccessMessage/SuccessMessage"
 import { db } from '../../firebase';
 import { collection, addDoc, query, where, getDocs } from 'firebase/firestore';
 
@@ -17,6 +18,8 @@ const TurnoForm = () => {
   const [description, setDescription] = useState('');
   const [nombreApellido, setNombreApellido] = useState('');
   const [bookedHours, setBookedHours] = useState([]);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [dateDisabled, setDateDisabled] = useState(false); // Estado para deshabilitar el campo de fecha
 
   const categories = ["Inscripcion", "Marina Mercante", "permisos u otros", "Carnet Nautico"];
   const availableHours = ['07:00', '08:00', '09:00', '10:00', '11:00', '12:00', '13:00'];
@@ -28,14 +31,16 @@ const TurnoForm = () => {
         const querySnapshot = await getDocs(q);
         const booked = querySnapshot.docs.map(doc => doc.data().hora);
         setBookedHours(booked);
+        // Deshabilitar el campo de fecha si todas las horas están reservadas
+        setDateDisabled(booked.length === availableHours.length);
       };
       fetchBookedHours();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [date]);
 
   const onSubmit = async (data) => {
     try {
-      // Guardar en Firebase Firestore
       await addDoc(collection(db, 'turnos'), {
         ...data,
         fecha: date,
@@ -44,10 +49,12 @@ const TurnoForm = () => {
         telefono: cellphone,
         observaciones: observations,
         descripcion: description,
-        nombreApellido: nombreApellido
+        nombreApellido: nombreApellido,
+        completado: false // Añadir campo completado, inicialmente false
       });
-      alert('Turno guardado exitosamente');
-      // Limpiar campos después de guardar
+      
+      setShowSuccessMessage(true);
+
       reset();
       setDate('');
       setTime('');
@@ -56,7 +63,11 @@ const TurnoForm = () => {
       setObservations('');
       setDescription('');
       setNombreApellido('');
-      navigate('/');
+
+      setTimeout(() => {
+        navigate('/');
+      }, 3000);
+
     } catch (error) {
       console.error('Error al guardar el turno:', error);
       alert('Hubo un error al guardar el turno. Por favor, inténtelo nuevamente.');
@@ -67,6 +78,14 @@ const TurnoForm = () => {
     const date = new Date(selectedDate);
     const day = date.getDay();
     return day === 0 || day === 6;
+  };
+
+  // const isDateFullyBooked = () => {
+  //   return bookedHours.length === availableHours.length;
+  // };
+
+  const handleCloseSuccessMessage = () => {
+    setShowSuccessMessage(false);
   };
 
   return (
@@ -111,8 +130,10 @@ const TurnoForm = () => {
               }
             }}
             className="input"
+            disabled={dateDisabled} // Deshabilitar el campo si todas las horas están reservadas
           />
           {message && <div className="error-message">{message}</div>}
+          {dateDisabled && <div className="error-message">No hay Turnos disponibles para esta fecha</div>}
         </div>
         <div className="form-group">
           <label className="label">Hora:</label>
@@ -167,14 +188,9 @@ const TurnoForm = () => {
         </div>
         <button type="submit" className="button">Guardar cambios</button>
       </form>
+      {showSuccessMessage && <SuccessMessage onClose={handleCloseSuccessMessage} />}
     </div>
   );
 };
 
 export default TurnoForm;
-
-
-
-
-
-

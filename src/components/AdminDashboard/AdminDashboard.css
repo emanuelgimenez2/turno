@@ -42,3 +42,7 @@
 h2, h3 {
   text-align: center;
 }
+.turno-item.completed {
+  background-color: #f2f2f2; /* Cambia el color de fondo a un tono más oscuro */
+  color: #666; /* Cambia el color del texto para que sea más oscuro */
+}

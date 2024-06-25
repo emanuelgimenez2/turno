@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './AdminDashboard.css'; // Archivo CSS local
 import { db } from '../../firebase';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, updateDoc, doc } from 'firebase/firestore';
 
 const AdminDashboard = () => {
   const [turnos, setTurnos] = useState([]);
@@ -24,6 +24,37 @@ const AdminDashboard = () => {
     fetchTurnos();
   }, []);
 
+  const handleCompleteToggle = async (id, completado) => {
+    try {
+      const turnoRef = doc(db, 'turnos', id);
+      await updateDoc(turnoRef, {
+        completado: !completado // Alternar el estado de completado
+      });
+
+      // Actualizar la lista localmente después de marcar como completado
+      const updatedTurnos = turnos.map((turno) =>
+        turno.id === id ? { ...turno, completado: !completado } : turno
+      );
+      setTurnos(updatedTurnos);
+    } catch (error) {
+      console.error('Error al marcar como completado:', error);
+    }
+  };
+
+  // const groupTurnosByDate = () => {
+  //   const grouped = turnos.reduce((acc, turno) => {
+  //     const date = turno.fecha.toDate().toLocaleDateString(); // Convertir a formato de fecha
+  
+  //     if (!acc[date]) {
+  //       acc[date] = [];
+  //     }
+  //     acc[date].push(turno);
+  //     return acc;
+  //   }, {});
+  
+  //   return grouped;
+  // };
+
   return (
     <div className="admin-dashboard-container">
       <h2>Panel de Administración</h2>
@@ -36,17 +67,25 @@ const AdminDashboard = () => {
             <th>Hora</th>
             <th>Categoría</th>
             <th>Observaciones</th>
+            <th>Completado</th> {/* Columna para el checkbox */}
           </tr>
         </thead>
         <tbody>
           {turnos.map((turno) => (
-            <tr key={turno.id} className="turno-item">
-              <td>{turno.nombreApellido} </td>
+            <tr key={turno.id} className={turno.completado ? 'turno-item completed' : 'turno-item'}>
+              <td>{turno.nombreApellido}</td>
               <td>{turno.descripcion}</td>
               <td>{turno.fecha}</td>
               <td>{turno.hora}</td>
               <td>{turno.categoria}</td>
               <td>{turno.observaciones}</td>
+              <td>
+                <input
+                  type="checkbox"
+                  checked={turno.completado || false}
+                  onChange={() => handleCompleteToggle(turno.id, turno.completado || false)}
+                />
+              </td>
             </tr>
           ))}
         </tbody>
@@ -56,5 +95,6 @@ const AdminDashboard = () => {
 };
 
 export default AdminDashboard;
+
 
 
