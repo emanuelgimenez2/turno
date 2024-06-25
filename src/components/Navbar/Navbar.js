@@ -8,7 +8,7 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <Link to="/" className="navbar-brand">
-        Mi Aplicación
+        Turnos
       </Link>
       <div className="navbar-items">
         <ul className="navbar-nav">

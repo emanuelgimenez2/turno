@@ -1,63 +1,90 @@
 /* /src/components/Navbar/Navbar.css */
+
+/* Estilo base para el navbar */
 .navbar {
+  background-color: #007bff; /* Fondo azul */
+  padding: 10px 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
-  background-color: #343a40;
-  color: #fff;
+  font-family: 'Arial, sans-serif';
 }
 
+/* Estilo para el logo de la marca */
 .navbar-brand {
   font-size: 1.5rem;
-  font-weight: bold;
   color: #fff;
   text-decoration: none;
+  font-weight: bold;
 }
 
+/* Contenedor de los elementos del navbar */
 .navbar-items {
   display: flex;
   align-items: center;
 }
 
+/* Estilo para la lista de navegación */
 .navbar-nav {
+  list-style: none;
   display: flex;
-  list-style-type: none;
   margin: 0;
   padding: 0;
 }
 
+/* Estilo para cada elemento de la lista */
 .nav-item {
-  margin-left: 10px;
+  margin-left: 20px;
 }
 
+/* Estilo para cada enlace de navegación */
 .nav-link {
   color: #fff;
   text-decoration: none;
-  padding: 10px;
+  font-size: 1rem;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: background-color 0.3s, color 0.3s;
 }
 
+/* Efecto hover para los enlaces de navegación */
 .nav-link:hover {
-  text-decoration: underline;
+  background-color: #0056b3; /* Fondo más oscuro al pasar el ratón */
+  color: #fff;
 }
 
-/* Responsive adjustments */
+/* Estilo para el formulario de inicio de sesión */
+.login-form {
+  margin-left: 20px;
+}
+
+/* Estilo responsive para dispositivos móviles */
 @media (max-width: 768px) {
   .navbar {
     flex-direction: column;
     align-items: flex-start;
   }
 
-  .navbar-items {
-    margin-top: 1rem;
-  }
-
   .navbar-nav {
-    margin-left: 0;
+    flex-direction: column;
+    width: 100%;
   }
 
   .nav-item {
     margin-left: 0;
-    margin-bottom: 10px;
+    width: 100%;
+    text-align: left;
+  }
+
+  .nav-link {
+    width: 100%;
+    padding: 10px 20px;
+  }
+
+  .login-form {
+    width: 100%;
+    margin-left: 0;
+    text-align: left;
   }
 }

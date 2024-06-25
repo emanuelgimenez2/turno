@@ -1,3 +1,5 @@
+/* /src/components/TurnoForm/TurnoForm.css */
+
 .container-turnform {
   border-radius: 30px;
   padding: 20px;
@@ -7,53 +9,45 @@
   margin: 0 auto;
 }
 
-.container-turnform h2 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.form-group {
-  margin-bottom: 15px;
+.form-vertical {
   display: flex;
   flex-direction: column;
 }
 
+.form-group {
+  margin-bottom: 15px;
+}
+
 .label {
-  font-weight: bold;
+  display: block;
   margin-bottom: 5px;
+  font-weight: bold;
 }
 
 .input,
 .select,
 .textarea {
   width: 100%;
-  padding: 8px;
-  border-radius: 4px;
+  padding: 10px;
   border: 1px solid #ccc;
-}
-
-.textarea {
-  height: 100px;
-  resize: vertical;
+  border-radius: 4px;
 }
 
 .error-message {
   color: red;
-  font-size: 14px;
-  margin-top: 5px;
+  font-size: 0.9em;
 }
 
 .button {
-  width: 100%;
-  margin-top: 10px;
-  padding: 10px;
-  border-radius: 4px;
-  background-color: #4CAF50;
+  padding: 10px 15px;
+  background-color: #007bff;
   color: white;
   border: none;
+  border-radius: 4px;
   cursor: pointer;
+  text-align: center;
 }
 
 .button:hover {
-  background-color: #45a049;
+  background-color: #0056b3;
 }
