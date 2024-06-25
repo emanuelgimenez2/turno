@@ -1,0 +1,16 @@
+/* /src/components/Home/Home.css */
+.home-container {
+    padding: 2rem;
+    text-align: center;
+  }
+  
+  .home-container h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .home-container p {
+    font-size: 1.2rem;
+    color: #555;
+  }
+  

@@ -1,0 +1,44 @@
+/* /src/components/AdminDashboard/AdminDashboard.css */
+.admin-dashboard-container {
+    padding: 20px;
+  }
+  
+  .turno-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .turno-table th, .turno-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  .turno-table th {
+    background-color: #f2f2f2;
+    text-align: left;
+  }
+  
+  .turno-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .turno-table tr:hover {
+    background-color: #ddd;
+  }
+  
+  .turno-table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .turnos-por-semana, .turnos-por-mes {
+    margin-top: 20px;
+  }
+  
+  h4 {
+    margin-top: 10px;
+  }
+  
