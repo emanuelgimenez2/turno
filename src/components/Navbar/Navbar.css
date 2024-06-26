@@ -1,69 +1,119 @@
-/* /src/components/Navbar/Navbar.css */
+/* Navbar.css */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
 
-/* Estilo base para el navbar */
+body {
+  margin: 0;
+  padding: 0;
+}
+
 .navbar {
-  background-color: #007bff; /* Fondo azul */
-  padding: 10px 50px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #2c3e50;
+  padding: 1rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-family: 'Arial, sans-serif';
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  width: 100%;
+  box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
 }
 
-/* Estilo para el logo de la marca */
 .navbar-brand {
+  color: #ecf0f1;
   font-size: 1.5rem;
-  color: #fff;
+  font-weight: 500;
   text-decoration: none;
-  font-weight: bold;
+  font-family: 'Roboto', sans-serif;
+  transition: color 0.3s ease;
 }
 
-/* Contenedor de los elementos del navbar */
+.navbar-brand:hover {
+  color: #3498db;
+}
+
 .navbar-items {
   display: flex;
   align-items: center;
 }
 
-/* Estilo para la lista de navegación */
 .navbar-nav {
-  list-style: none;
   display: flex;
+  list-style-type: none;
   margin: 0;
   padding: 0;
 }
 
-/* Estilo para cada elemento de la lista */
 .nav-item {
-  margin-left: 20px;
+  margin-left: 1.5rem;
 }
 
-/* Estilo para cada enlace de navegación */
 .nav-link {
-  color: #fff;
+  color: #bdc3c7;
   text-decoration: none;
   font-size: 1rem;
-  padding: 8px 12px;
-  border-radius: 4px;
-  transition: background-color 0.3s, color 0.3s;
+  font-weight: 400;
+  font-family: 'Roboto', sans-serif;
+  transition: color 0.3s ease;
 }
 
-/* Efecto hover para los enlaces de navegación */
 .nav-link:hover {
-  background-color: #0056b3; /* Fondo más oscuro al pasar el ratón */
-  color: #fff;
+  color: #3498db;
 }
 
-/* Estilo para el formulario de inicio de sesión */
 .login-form {
-  margin-left: 20px;
+  margin-left: 2rem;
+  display: flex;
+  align-items: center;
 }
 
-/* Estilo responsive para dispositivos móviles */
+.nav-item:last-child {
+  margin-right: 1.5rem;
+}
+
+.main-content {
+  padding-top: 120px; /* Aumentado para dar más espacio */
+}
+
+.navbar-toggle {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.navbar-toggle span {
+  width: 25px;
+  height: 3px;
+  background-color: #ecf0f1;
+  margin: 2px 0;
+  transition: 0.4s;
+}
+
 @media (max-width: 768px) {
   .navbar {
+    flex-wrap: wrap;
+    padding: 1rem;
+  }
+
+  .navbar-brand {
+    flex: 1;
+  }
+
+  .navbar-toggle {
+    display: flex;
+  }
+
+  .navbar-items {
+    flex-basis: 100%;
     flex-direction: column;
     align-items: flex-start;
+    display: none;
+  }
+
+  .navbar-items.active {
+    display: flex;
   }
 
   .navbar-nav {
@@ -72,19 +122,39 @@
   }
 
   .nav-item {
-    margin-left: 0;
+    margin: 0.5rem 0;
     width: 100%;
-    text-align: left;
   }
 
   .nav-link {
-    width: 100%;
-    padding: 10px 20px;
+    display: block;
+    padding: 0.5rem 0;
   }
 
   .login-form {
+    margin: 1rem 0 0 0;
     width: 100%;
-    margin-left: 0;
-    text-align: left;
+  }
+
+  .main-content {
+    padding-top: 180px; /* Aumentado aún más para móviles */
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .navbar {
+    padding: 1rem;
+  }
+
+  .nav-item {
+    margin-left: 1rem;
+  }
+
+  .login-form {
+    margin-left: 1rem;
+  }
+
+  .main-content {
+    padding-top: 140px; /* Ajustado para tablets */
   }
 }

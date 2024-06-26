@@ -11,7 +11,7 @@ const LoginForm = () => {
       {isAuthenticated ? (
         <>
           <img src={user.picture} alt={user.name} className="user-avatar" />
-          <span className="user-info">{user.name}</span>
+          {/* <span className="user-info">{user.name}</span> */}
           <button onClick={() => logout({ returnTo: window.location.origin })}>
             Cerrar sesión
           </button>
