@@ -26,7 +26,7 @@ const Navbar = () => {
               Agendar Turno
             </Link>
           </li>
-           {user.email === adminEmail && ( // Mostrar solo si el correo coincide con el correo de administrador
+           { adminEmail && ( // Mostrar solo si el correo coincide con el correo de administrador
             <li className="nav-item">
               <Link to="/admin" className="nav-link">
                 Admin
