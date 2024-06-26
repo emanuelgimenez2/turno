@@ -11,7 +11,7 @@ const AdminDashboard = () => {
       try {
         const turnosCollection = collection(db, 'turnos');
         const snapshot = await getDocs(turnosCollection);
-      
+
         const turnosData = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
         console.log(turnosData)
 
@@ -41,20 +41,6 @@ const AdminDashboard = () => {
     }
   };
 
-  // const groupTurnosByDate = () => {
-  //   const grouped = turnos.reduce((acc, turno) => {
-  //     const date = turno.fecha.toDate().toLocaleDateString(); // Convertir a formato de fecha
-  
-  //     if (!acc[date]) {
-  //       acc[date] = [];
-  //     }
-  //     acc[date].push(turno);
-  //     return acc;
-  //   }, {});
-  
-  //   return grouped;
-  // };
-
   return (
     <div className="admin-dashboard-container">
       <h2>Panel de Administración</h2>
@@ -67,7 +53,7 @@ const AdminDashboard = () => {
             <th>Hora</th>
             <th>Categoría</th>
             <th>Observaciones</th>
-            <th>Completado</th> {/* Columna para el checkbox */}
+            <th>Completado</th>
           </tr>
         </thead>
         <tbody>

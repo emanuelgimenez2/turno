@@ -38,11 +38,10 @@ const Home = () => {
 
       <section className="info-section">
         <h2>Información General</h2>
-       
+        {/* Contenido adicional aquí */}
       </section>
 
       <section className="tables-section">
-       
         {categories.map((category, index) => (
           <div key={index} className="table-container">
             <h3>{category.title}</h3>
