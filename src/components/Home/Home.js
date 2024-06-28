@@ -48,8 +48,8 @@ const Home = () => {
             <table className="data-table">
               <thead>
                 <tr>
-                  <th>Dato</th>
-                  <th>Descripción</th>
+                  <th>Tramite</th>
+                  <th>Documentos</th>
                 </tr>
               </thead>
               <tbody>

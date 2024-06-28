@@ -25,6 +25,8 @@ const TurnoForm = () => {
   const [bookedHours, setBookedHours] = useState([]);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [dateDisabled, setDateDisabled] = useState(false);
+  // eslint-disable-next-line no-unused-vars
+  const [availableDays, setAvailableDays] = useState({});
 
   const categories = [
     "Inscripcion",
@@ -53,8 +55,29 @@ const TurnoForm = () => {
       };
       fetchBookedHours();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [date]);
+
+  useEffect(() => {
+    const fetchAvailableDays = async () => {
+      const q = query(collection(db, "turnos"));
+      const querySnapshot = await getDocs(q);
+      const turnosByDate = {};
+
+      querySnapshot.forEach((doc) => {
+        const { fecha } = doc.data();
+        if (turnosByDate[fecha]) {
+          turnosByDate[fecha] += 1;
+        } else {
+          turnosByDate[fecha] = 1;
+        }
+      });
+
+      setAvailableDays(turnosByDate);
+    };
+
+    fetchAvailableDays();
+  }, []);
 
   const onSubmit = async (data) => {
     try {
@@ -102,13 +125,42 @@ const TurnoForm = () => {
     setShowSuccessMessage(false);
   };
 
+  // const renderAvailableDays = () => {
+  //   const today = new Date();
+  //   const daysInWeek = 3; // Mostrar solo los próximos 7 días
+  //   const daysArray = Array.from({ length: daysInWeek }, (_, i) => {
+  //     const nextDay = new Date(today);
+  //     nextDay.setDate(today.getDate() + i);
+  //     return nextDay;
+  //   });
+
+  //   return daysArray.map((day, index) => {
+  //     const dateStr = `${day.getFullYear()}-${String(
+  //       day.getMonth() + 1
+  //     ).padStart(2, "0")}-${String(day.getDate()).padStart(2, "0")}`;
+  //     const turnosCount = availableDays[dateStr] || 0;
+  //     const available = 7 - turnosCount;
+
+  //     return (
+  //       <div key={index} className="available-day">
+  //         <span className="date">{dateStr}</span>
+  //         <span className={`status ${available > 0 ? "available" : "full"}`}>
+  //           {available > 0 ? `Disponibles: ${available}` : "Completo"}
+  //         </span>
+  //       </div>
+  //     );
+  //   });
+  // };
+
   return (
     <div className="container-turnform">
       <h2>Crear turno</h2>
 
       <form onSubmit={handleSubmit(onSubmit)} className="form-vertical">
         <div className="form-group">
-          <label htmlFor="nombreApellido" className="label">Nombre y Apellido:</label>
+          <label htmlFor="nombreApellido" className="label">
+            Nombre y Apellido:
+          </label>
           <input
             id="nombreApellido"
             type="text"
@@ -121,8 +173,14 @@ const TurnoForm = () => {
             <span className="error-message">Este campo es requerido</span>
           )}
         </div>
+        {/* <div className="form-group">
+          <h3>Días con Turnos Disponibles</h3>
+          <div className="label">{renderAvailableDays()}</div>
+        </div> */}
         <div className="form-group">
-          <label htmlFor="descripcion" className="label">Descripción:</label>
+          <label htmlFor="descripcion" className="label">
+            Descripción:
+          </label>
           <textarea
             id="descripcion"
             {...register("descripcion")}
@@ -132,7 +190,9 @@ const TurnoForm = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="fecha" className="label">Fecha:</label>
+          <label htmlFor="fecha" className="label">
+            Fecha:
+          </label>
           <input
             id="fecha"
             type="date"
@@ -153,12 +213,14 @@ const TurnoForm = () => {
           {message && <div className="error-message">{message}</div>}
           {dateDisabled && (
             <div className="error-message">
-              No hay Turnos disponibles para esta fecha
+              No hay turnos disponibles para esta fecha
             </div>
           )}
         </div>
         <div className="form-group">
-          <label htmlFor="hora" className="label">Hora:</label>
+          <label htmlFor="hora" className="label">
+            Hora:
+          </label>
           <select
             id="hora"
             value={time}
@@ -176,7 +238,9 @@ const TurnoForm = () => {
           </select>
         </div>
         <div className="form-group">
-          <label htmlFor="categoria" className="label">Categoría:</label>
+          <label htmlFor="categoria" className="label">
+            Categoría:
+          </label>
           <select
             id="categoria"
             value={category}
@@ -192,7 +256,9 @@ const TurnoForm = () => {
           </select>
         </div>
         <div className="form-group">
-          <label htmlFor="telefono" className="label">Número de Celular:</label>
+          <label htmlFor="telefono" className="label">
+            Número de Celular:
+          </label>
           <input
             id="telefono"
             type="tel"
@@ -204,7 +270,9 @@ const TurnoForm = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="observaciones" className="label">Observaciones:</label>
+          <label htmlFor="observaciones" className="label">
+            Observaciones:
+          </label>
           <textarea
             id="observaciones"
             {...register("observaciones")}
