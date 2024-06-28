@@ -15,17 +15,18 @@ const Home = () => {
             "Comprobante de pago",
           ],
         },
-        // { item: "Dato 2", description: ["Descripción 2a", "Descripción 2b"] },
-        // { item: "Dato 3", description: ["Descripción 3a", "Descripción 3b"] },
       ],
     },
-    // {
-    //   title: "Tabla 2",
-    //   data: [
-    //     { item: "Dato 4", description: ["Descripción 4a", "Descripción 4b"] },
-    //     { item: "Dato 5", description: ["Descripción 5a", "Descripción 5b"] },
-    //   ],
-    // },
+    {
+      title: "Tasa Fija Anual",
+      data: [
+        {
+          item: "Tasa Fija Anual",
+          description: [""],
+          link: "https://erecauda.prefecturanaval.gob.ar/erecauda/bb_form.php",
+        },
+      ],
+    },
   ];
 
   return (
@@ -48,7 +49,7 @@ const Home = () => {
             <table className="data-table">
               <thead>
                 <tr>
-                  <th>Tramite</th>
+                  <th>Trámite</th>
                   <th>Documentos</th>
                 </tr>
               </thead>
@@ -61,6 +62,16 @@ const Home = () => {
                         {item.description.map((desc, dIdx) => (
                           <li key={dIdx}>{desc}</li>
                         ))}
+                        {/* Renderizamos el botón solo para el segundo elemento */}
+                        {index === 1 && (
+                          <a
+                            href={item.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            <button>ingrese</button>
+                          </a>
+                        )}
                       </ul>
                     </td>
                   </tr>
