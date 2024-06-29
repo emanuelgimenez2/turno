@@ -4,6 +4,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import "./LoginForm.css"; // Archivo CSS local
 
 const LoginForm = () => {
+ // const namespace = 'https://turno.com';
   const {
     loginWithRedirect,
     isAuthenticated,
@@ -12,6 +13,8 @@ const LoginForm = () => {
     getAccessTokenSilently,
     getIdTokenClaims
   } = useAuth0();
+  // const roles = user[`${namespace}/roles`] || [];
+  // console.log('User Roles:', roles);
 
   useEffect(() => {
     const getProfileData = async () => {
@@ -21,7 +24,7 @@ const LoginForm = () => {
           const token = await getAccessTokenSilently();
           console.log("Token JWT:", token);
           localStorage.setItem("accessToken", token);
-          const roles = idTokenClaims["https://example.com/roles"]; // Reemplaza con el namespace de tus roles
+          const roles = idTokenClaims["https://turno.com/roles"]; // Reemplaza con el namespace de tus roles
 
           console.log("Roles del usuario:", roles);
         }
