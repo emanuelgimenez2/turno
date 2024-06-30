@@ -129,6 +129,7 @@ const TurnoForm = () => {
             Nombre y Apellido:
           </label>
           <input
+          placeholder="Juan Perez"
             id="nombreApellido"
             type="text"
             {...register("nombreApellido", {
@@ -160,6 +161,7 @@ const TurnoForm = () => {
             Descripción:
           </label>
           <textarea
+           placeholder="Descripcion de una situacion especial"
             id="descripcion"
             {...register("descripcion")}
             className="input"
@@ -172,6 +174,7 @@ const TurnoForm = () => {
             Fecha:
           </label>
           <input
+          
             id="fecha"
             type="date"
             value={date}
@@ -249,6 +252,7 @@ const TurnoForm = () => {
             Número de Celular:
           </label>
           <input
+           placeholder="3442535263"
             id="telefono"
             type="tel"
             pattern="[0-9]{10}"
@@ -258,7 +262,7 @@ const TurnoForm = () => {
             className="input"
           />
         </div>
-        <div className="form-group">
+        {/* <div className="form-group">
           <label htmlFor="observaciones" className="label">
             Observaciones:
           </label>
@@ -269,7 +273,7 @@ const TurnoForm = () => {
             value={observations}
             onChange={(e) => setObservations(e.target.value)}
           />
-        </div>
+        </div> */}
         <button type="submit" className="button">
           Guardar cambios
         </button>
