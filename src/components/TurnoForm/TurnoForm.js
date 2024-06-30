@@ -34,15 +34,7 @@ const TurnoForm = () => {
     "permisos u otros",
     "Carnet Nautico",
   ];
-  const availableHours = [
-    "07:00",
-    "08:00",
-    "09:00",
-    "10:00",
-    "11:00",
-    "12:00",
-    "13:00",
-  ];
+  const availableHours = ["07:00", "08:00", "09:00", "10:00", "11:00", "12:00"];
 
   useEffect(() => {
     if (date) {
@@ -118,7 +110,6 @@ const TurnoForm = () => {
   const isWeekend = (selectedDate) => {
     const date = new Date(selectedDate);
     const day = date.getDay();
-    console.log(day);
     return day === 5 || day === 6;
   };
 

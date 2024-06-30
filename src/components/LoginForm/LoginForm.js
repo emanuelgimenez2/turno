@@ -19,10 +19,10 @@ const LoginForm = () => {
         if (isAuthenticated) {
           const idTokenClaims = await getIdTokenClaims();
           const token = await getAccessTokenSilently();
-          console.log("Token JWT:", token);
+
           localStorage.setItem("accessToken", token);
           const roles = idTokenClaims["https://turno.com/roles"]; // Reemplaza con el namespace de tus roles
-         
+
           console.log("Roles del usuario:", roles);
         }
       } catch (error) {
