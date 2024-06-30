@@ -45,6 +45,17 @@ body {
   margin: 0;
   padding: 0;
 }
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  width: 60px; /* Ajusta el tamaño de acuerdo a tu diseño */
+  height: 60px;
+  margin-right: 10px; /* Espacio entre el logo y el texto */
+}
+
 
 .nav-item {
   margin-left: 1.5rem;

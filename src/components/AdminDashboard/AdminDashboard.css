@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
+/* AdminDashboard.css */
 
 .admin-dashboard-container {
   padding: 2rem;
@@ -34,8 +34,21 @@ h2 {
   transition: background-color 0.3s ease;
 }
 
-.filters button:hover {
+.filters button.active {
   background-color: #0056b3;
+}
+
+.date-picker-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.date-picker {
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 .turnos-table {
@@ -66,12 +79,15 @@ h2 {
   background-color: #f0f0f0;
 }
 
-.turno-item.completed {
+.turno-item.entramite {
   background-color: #d1f0d1;
 }
 
-input[type="checkbox"] {
-  transform: scale(1.5);
+.select {
+  padding: 8px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 @media (max-width: 768px) {
@@ -86,5 +102,13 @@ input[type="checkbox"] {
 
   h2 {
     font-size: 1.5rem;
+  }
+
+  .filters {
+    flex-wrap: wrap;
+  }
+
+  .filters button {
+    margin: 5px;
   }
 }
