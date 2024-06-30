@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import "./TurnoForm.css";
-import SuccessMessage from "../SuccessMessage/SuccessMessage";
+import Message from "../Message/Message"; // Componente genérico de mensajes
 import { db } from "../../firebase";
 import { collection, addDoc, query, where, getDocs } from "firebase/firestore";
 
@@ -14,7 +14,6 @@ const TurnoForm = () => {
     reset,
   } = useForm();
   const navigate = useNavigate();
-  const [message, setMessage] = useState("");
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [category, setCategory] = useState("");
@@ -27,6 +26,7 @@ const TurnoForm = () => {
   const [dateDisabled, setDateDisabled] = useState(false);
   // eslint-disable-next-line no-unused-vars
   const [availableDays, setAvailableDays] = useState({});
+  const [message, setMessage] = useState("");
 
   const categories = [
     "Inscripcion",
@@ -109,7 +109,7 @@ const TurnoForm = () => {
       }, 3000);
     } catch (error) {
       console.error("Error al guardar el turno:", error);
-      alert(
+      setMessage(
         "Hubo un error al guardar el turno. Por favor, inténtelo nuevamente."
       );
     }
@@ -118,39 +118,15 @@ const TurnoForm = () => {
   const isWeekend = (selectedDate) => {
     const date = new Date(selectedDate);
     const day = date.getDay();
-    return day === 0 || day === 6;
+    console.log(day);
+    return day === 5 || day === 6;
   };
 
   const handleCloseSuccessMessage = () => {
     setShowSuccessMessage(false);
   };
 
-  // const renderAvailableDays = () => {
-  //   const today = new Date();
-  //   const daysInWeek = 3; // Mostrar solo los próximos 7 días
-  //   const daysArray = Array.from({ length: daysInWeek }, (_, i) => {
-  //     const nextDay = new Date(today);
-  //     nextDay.setDate(today.getDate() + i);
-  //     return nextDay;
-  //   });
-
-  //   return daysArray.map((day, index) => {
-  //     const dateStr = `${day.getFullYear()}-${String(
-  //       day.getMonth() + 1
-  //     ).padStart(2, "0")}-${String(day.getDate()).padStart(2, "0")}`;
-  //     const turnosCount = availableDays[dateStr] || 0;
-  //     const available = 7 - turnosCount;
-
-  //     return (
-  //       <div key={index} className="available-day">
-  //         <span className="date">{dateStr}</span>
-  //         <span className={`status ${available > 0 ? "available" : "full"}`}>
-  //           {available > 0 ? `Disponibles: ${available}` : "Completo"}
-  //         </span>
-  //       </div>
-  //     );
-  //   });
-  // };
+  const today = new Date().toISOString().split("T")[0];
 
   return (
     <div className="container-turnform">
@@ -164,19 +140,30 @@ const TurnoForm = () => {
           <input
             id="nombreApellido"
             type="text"
-            {...register("nombreApellido", { required: true })}
+            {...register("nombreApellido", {
+              required: "Este campo es requerido",
+              pattern: {
+                value: /^[a-zA-Z\s]*$/,
+                message:
+                  "El nombre no puede contener números ni caracteres especiales",
+              },
+            })}
             className="input"
             value={nombreApellido}
-            onChange={(e) => setNombreApellido(e.target.value)}
+            onChange={(e) => {
+              setNombreApellido(e.target.value);
+              setMessage(""); // Limpiar mensaje de error al editar
+            }}
           />
           {errors.nombreApellido && (
-            <span className="error-message">Este campo es requerido</span>
+            <Message
+              title="Error en el nombre"
+              message={errors.nombreApellido.message}
+              type="error"
+              onClose={() => setMessage("")}
+            />
           )}
         </div>
-        {/* <div className="form-group">
-          <h3>Días con Turnos Disponibles</h3>
-          <div className="label">{renderAvailableDays()}</div>
-        </div> */}
         <div className="form-group">
           <label htmlFor="descripcion" className="label">
             Descripción:
@@ -197,6 +184,7 @@ const TurnoForm = () => {
             id="fecha"
             type="date"
             value={date}
+            min={today}
             onChange={(e) => {
               const selectedDate = e.target.value;
               if (!isWeekend(selectedDate)) {
@@ -210,11 +198,21 @@ const TurnoForm = () => {
             className="input"
             disabled={dateDisabled}
           />
-          {message && <div className="error-message">{message}</div>}
+          {message && (
+            <Message
+              title="Error de fecha"
+              message={message}
+              type="error"
+              onClose={() => setMessage("")}
+            />
+          )}
           {dateDisabled && (
-            <div className="error-message">
-              No hay turnos disponibles para esta fecha
-            </div>
+            <Message
+              title="Turnos completos"
+              message="No hay turnos disponibles para esta fecha."
+              type="error"
+              onClose={() => setMessage("")}
+            />
           )}
         </div>
         <div className="form-group">
@@ -286,7 +284,12 @@ const TurnoForm = () => {
         </button>
       </form>
       {showSuccessMessage && (
-        <SuccessMessage onClose={handleCloseSuccessMessage} />
+        <Message
+          title="¡Turno generado con éxito!"
+          message="El turno ha sido registrado correctamente."
+          type="success"
+          onClose={handleCloseSuccessMessage}
+        />
       )}
     </div>
   );

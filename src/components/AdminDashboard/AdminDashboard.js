@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './AdminDashboard.css';
 import { db } from '../../firebase';
-import { collection, getDocs, updateDoc, doc } from 'firebase/firestore';
+import { collection, getDocs,  } from 'firebase/firestore';
 
 const AdminDashboard = () => {
   const [turnos, setTurnos] = useState([]);
@@ -22,7 +22,6 @@ const AdminDashboard = () => {
     console.error('Formato de fecha no reconocido:', dateValue);
     return new Date(); // Fecha por defecto si no podemos convertir
   };
-  
 
   useEffect(() => {
     const fetchTurnos = async () => {
@@ -46,20 +45,6 @@ const AdminDashboard = () => {
 
     fetchTurnos();
   }, []);
-
-  const handleCompleteToggle = async (id, completado) => {
-    try {
-      const turnoRef = doc(db, 'turnos', id);
-      await updateDoc(turnoRef, { completado: !completado });
-
-      const updatedTurnos = turnos.map(turno =>
-        turno.id === id ? { ...turno, completado: !completado } : turno
-      );
-      setTurnos(updatedTurnos);
-    } catch (error) {
-      console.error('Error al marcar como completado:', error);
-    }
-  };
 
   useEffect(() => {
     const filterTurnos = () => {
@@ -145,7 +130,7 @@ const AdminDashboard = () => {
                 <input
                   type="checkbox"
                   checked={turno.completado}
-                  onChange={() => handleCompleteToggle(turno.id, turno.completado)}
+                  // onChange={() => handleCompleteToggle(turno.id, turno.completado)}
                 />
               </td>
             </tr>

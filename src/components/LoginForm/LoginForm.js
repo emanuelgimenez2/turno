@@ -4,17 +4,14 @@ import { useAuth0 } from "@auth0/auth0-react";
 import "./LoginForm.css"; // Archivo CSS local
 
 const LoginForm = () => {
- // const namespace = 'https://turno.com';
   const {
     loginWithRedirect,
     isAuthenticated,
     user,
     logout,
     getAccessTokenSilently,
-    getIdTokenClaims
+    getIdTokenClaims,
   } = useAuth0();
-  // const roles = user[`${namespace}/roles`] || [];
-  // console.log('User Roles:', roles);
 
   useEffect(() => {
     const getProfileData = async () => {
@@ -28,16 +25,13 @@ const LoginForm = () => {
 
           console.log("Roles del usuario:", roles);
         }
-
-
-        
       } catch (error) {
         console.error("Error al obtener el token:", error.message);
       }
     };
 
     getProfileData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuthenticated, getAccessTokenSilently]);
 
   return (
@@ -50,7 +44,11 @@ const LoginForm = () => {
           </button>
         </>
       ) : (
-        <button onClick={() => loginWithRedirect({ callbackUrl: window.location.href })}>
+        <button
+          onClick={() =>
+            loginWithRedirect({ callbackUrl: window.location.href })
+          }
+        >
           Iniciar Sesión
         </button>
       )}
