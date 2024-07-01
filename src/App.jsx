@@ -7,6 +7,7 @@ import TurnoForm from './components/TurnoForm/TurnoForm';
 import AdminDashboard from './components/AdminDashboard/AdminDashboard';
 
 import './App.css'; // Asegúrate de crear este archivo si no existe
+import Footer from './components/Footer/Footer';
 
 function App() {
 
@@ -21,6 +22,9 @@ function App() {
             <Route path="/turno" element={<TurnoForm />} />
             <Route path="/admin" element={<AdminDashboard />} />
           </Routes>
+        <div>
+          <Footer/>
+        </div>
         </div>
       </div>
     </Router>
