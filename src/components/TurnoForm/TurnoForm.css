@@ -77,11 +77,39 @@ textarea.input {
 .button:hover {
   background-color: #2980b9;
 }
+.custom-day {
+  position: relative;
+}
+
+.cross-icon {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.disabled {
+  color: #ccc;
+}
 
 .error-message {
   color: #e74c3c;
   font-size: 0.875rem;
   margin-top: 0.25rem;
+}
+.date-picker-container {
+  position: relative;
+}
+
+.date-picker-input {
+  padding-right: 30px;
+}
+
+.calendar-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
 }
 
 @media (max-width: 768px) {

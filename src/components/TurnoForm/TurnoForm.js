@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import DatePicker, { registerLocale } from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { X, Calendar } from "lucide-react";
+import es from 'date-fns/locale/es';
 import "./TurnoForm.css";
-import Message from "../Message/Message"; // Componente genérico de mensajes
+import Message from "../Message/Message";
 import { db } from "../../firebase";
-import { collection, addDoc, query, where, getDocs } from "firebase/firestore";
+import { collection, addDoc, query, getDocs } from "firebase/firestore";
+
+registerLocale('es', es);
 
 const TurnoForm = () => {
   const {
@@ -14,18 +20,15 @@ const TurnoForm = () => {
     reset,
   } = useForm();
   const navigate = useNavigate();
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState(null);
   const [time, setTime] = useState("");
   const [category, setCategory] = useState("");
   const [cellphone, setCellphone] = useState("");
-  const [observations, setObservations] = useState("");
   const [description, setDescription] = useState("");
   const [nombreApellido, setNombreApellido] = useState("");
   const [bookedHours, setBookedHours] = useState([]);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-  const [dateDisabled, setDateDisabled] = useState(false);
-  // eslint-disable-next-line no-unused-vars
-  const [availableDays, setAvailableDays] = useState({});
+  const [fullDates, setFullDates] = useState([]);
   const [message, setMessage] = useState("");
 
   const categories = [
@@ -37,21 +40,7 @@ const TurnoForm = () => {
   const availableHours = ["07:00", "08:00", "09:00", "10:00", "11:00", "12:00"];
 
   useEffect(() => {
-    if (date) {
-      const fetchBookedHours = async () => {
-        const q = query(collection(db, "turnos"), where("fecha", "==", date));
-        const querySnapshot = await getDocs(q);
-        const booked = querySnapshot.docs.map((doc) => doc.data().hora);
-        setBookedHours(booked);
-        setDateDisabled(booked.length === availableHours.length);
-      };
-      fetchBookedHours();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [date]);
-
-  useEffect(() => {
-    const fetchAvailableDays = async () => {
+    const fetchFullDates = async () => {
       const q = query(collection(db, "turnos"));
       const querySnapshot = await getDocs(q);
       const turnosByDate = {};
@@ -65,21 +54,39 @@ const TurnoForm = () => {
         }
       });
 
-      setAvailableDays(turnosByDate);
+      const fullDatesArray = Object.entries(turnosByDate)
+        .filter(([, count]) => count >= 6)
+        .map(([date]) => new Date(date));
+
+      setFullDates(fullDatesArray);
     };
 
-    fetchAvailableDays();
+    fetchFullDates();
   }, []);
+
+  useEffect(() => {
+    if (date) {
+      const fetchBookedHours = async () => {
+        const dateString = date.toISOString().split('T')[0];
+        const q = query(collection(db, "turnos"));
+        const querySnapshot = await getDocs(q);
+        const booked = querySnapshot.docs
+          .filter(doc => doc.data().fecha === dateString)
+          .map(doc => doc.data().hora);
+        setBookedHours(booked);
+      };
+      fetchBookedHours();
+    }
+  }, [date]);
 
   const onSubmit = async (data) => {
     try {
       await addDoc(collection(db, "turnos"), {
         ...data,
-        fecha: date,
+        fecha: date.toISOString().split('T')[0],
         hora: time,
         categoria: category,
         telefono: cellphone,
-        observaciones: observations,
         descripcion: description,
         nombreApellido: nombreApellido,
         completado: false,
@@ -88,11 +95,10 @@ const TurnoForm = () => {
       setShowSuccessMessage(true);
 
       reset();
-      setDate("");
+      setDate(null);
       setTime("");
       setCategory("");
       setCellphone("");
-      setObservations("");
       setDescription("");
       setNombreApellido("");
 
@@ -107,8 +113,7 @@ const TurnoForm = () => {
     }
   };
 
-  const isWeekend = (selectedDate) => {
-    const date = new Date(selectedDate);
+  const isWeekend = (date) => {
     const day = date.getDay();
     return day === 5 || day === 6;
   };
@@ -117,7 +122,23 @@ const TurnoForm = () => {
     setShowSuccessMessage(false);
   };
 
-  const today = new Date().toISOString().split("T")[0];
+  const isDateDisabled = (date) => {
+    return fullDates.some(fullDate => 
+      fullDate.getDate() === date.getDate() &&
+      fullDate.getMonth() === date.getMonth() &&
+      fullDate.getFullYear() === date.getFullYear()
+    ) || isWeekend(date);
+  };
+
+  const renderDayContents = (day, date) => {
+    const isDisabled = isDateDisabled(date);
+    return (
+      <div className={`custom-day ${isDisabled ? 'disabled' : ''}`}>
+        {day}
+        {isDisabled && <X size={12} color="red" className="cross-icon" />}
+      </div>
+    );
+  };
 
   return (
     <div className="container-turnform">
@@ -129,7 +150,7 @@ const TurnoForm = () => {
             Nombre y Apellido:
           </label>
           <input
-          placeholder="Juan Perez"
+            placeholder="Juan Perez"
             id="nombreApellido"
             type="text"
             {...register("nombreApellido", {
@@ -144,7 +165,7 @@ const TurnoForm = () => {
             value={nombreApellido}
             onChange={(e) => {
               setNombreApellido(e.target.value);
-              setMessage(""); // Limpiar mensaje de error al editar
+              setMessage("");
             }}
           />
           {errors.nombreApellido && (
@@ -161,7 +182,7 @@ const TurnoForm = () => {
             Descripción:
           </label>
           <textarea
-           placeholder="Descripcion de una situacion especial"
+            placeholder="Descripcion de una situacion especial"
             id="descripcion"
             {...register("descripcion")}
             className="input"
@@ -173,37 +194,24 @@ const TurnoForm = () => {
           <label htmlFor="fecha" className="label">
             Fecha:
           </label>
-          <input
-          
-            id="fecha"
-            type="date"
-            value={date}
-            min={today}
-            onChange={(e) => {
-              const selectedDate = e.target.value;
-              if (!isWeekend(selectedDate)) {
-                setMessage("");
-                setDate(selectedDate);
-              } else {
-                setMessage("No se permiten fechas de fin de semana");
-                setDate("");
-              }
-            }}
-            className="input"
-            disabled={dateDisabled}
-          />
+          <div className="date-picker-container">
+            <DatePicker
+              selected={date}
+              onChange={(date) => setDate(date)}
+              minDate={new Date()}
+              filterDate={(date) => !isDateDisabled(date)}
+              renderDayContents={renderDayContents}
+              placeholderText="Seleccione una fecha"
+              className="input date-picker-input"
+              locale="es"
+              dateFormat="dd/MM/yyyy"
+            />
+            <Calendar className="calendar-icon" />
+          </div>
           {message && (
             <Message
               title="Error de fecha"
               message={message}
-              type="error"
-              onClose={() => setMessage("")}
-            />
-          )}
-          {dateDisabled && (
-            <Message
-              title="Turnos completos"
-              message="No hay turnos disponibles para esta fecha."
               type="error"
               onClose={() => setMessage("")}
             />
@@ -252,7 +260,7 @@ const TurnoForm = () => {
             Número de Celular:
           </label>
           <input
-           placeholder="3442535263"
+            placeholder="3442535263"
             id="telefono"
             type="tel"
             pattern="[0-9]{10}"
@@ -262,18 +270,7 @@ const TurnoForm = () => {
             className="input"
           />
         </div>
-        {/* <div className="form-group">
-          <label htmlFor="observaciones" className="label">
-            Observaciones:
-          </label>
-          <textarea
-            id="observaciones"
-            {...register("observaciones")}
-            className="input"
-            value={observations}
-            onChange={(e) => setObservations(e.target.value)}
-          />
-        </div> */}
+      
         <button type="submit" className="button">
           Guardar cambios
         </button>
