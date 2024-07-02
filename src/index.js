@@ -7,10 +7,18 @@ const domain = process.env.REACT_APP_AUTH0_DOMAIN;
 const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
 const audience = process.env.REACT_APP_AUTH0_AUDIENCE;
 
+console.log("clientId", clientId);
+console.log("audience", audience);
+console.log("domain", domain);
+
 if (!domain || !clientId) {
   throw new Error("Missing Auth0 domain or clientId");
 }
 
+
+
+// 👇️ IMPORTANT: use correct ID of your root element
+// this is the ID of the div in your index.html file
 const container = document.getElementById("root");
 const root = createRoot(container);
 

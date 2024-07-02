@@ -25,8 +25,13 @@ const Home = () => {
       title: "Renovación Náutico Deportiva",
       data: [
         {
-          item: "Tasa Fija Anual",
-          description: ["Busque su embarcacion e imprima las bolatas"],
+          item: "Renovación",
+          description: ["Certificado Náutico VENCIDO / o Constancia de Perdida/Robo/Extravió ",
+            "Certificado Médico ",
+            "2  Fotos color Fondo Celeste de Frente",
+            "Fotocopia DNI",
+            "	Constancia cuil."
+          ],
           link: "https://erecauda.prefecturanaval.gob.ar/erecauda/bb_form.php",
         },
       ],
@@ -45,8 +50,13 @@ const Home = () => {
       title: "Autorizacion de manejo",
       data: [
         {
-          item: "Tasa Fija Anual",
-          description: ["Busque su embarcacion e imprima las bolatas"],
+          item: "Autorizacion de manejo",
+          description: ["Formulario: Firma certificada por Escribano y Legalizada por el Colegio de Escribanos, o presentarse titular y certifica firma en Oficina de POLINAVE.",
+            "Fotocopias del Certificado de Matrícula ",
+            "Fotocopia del DNI ",
+            "Fotocopia Habilitación Náutica Deportiva",
+            "Constancia de CUIL O CUIT "
+          ],
           link: "https://erecauda.prefecturanaval.gob.ar/erecauda/bb_form.php",
         },
       ],
@@ -55,8 +65,13 @@ const Home = () => {
       title: "Cambio – retiro de motor",
       data: [
         {
-          item: "Tasa Fija Anual",
-          description: ["Busque su embarcacion e imprima las bolatas"],
+          item: "Cambio – retiro de motor",
+          description: ["Formulario Nº 003 RNBU CERTIFICADO  por escribano público y COLEGIO",
+            "Factura original de compra del motor con sello y firma de la entidad vendedora (en caso de instalación – cambio de motor).",
+            "Fotocopia DNI ",
+            "Constancia de CUIL o CUIT",
+            "Fotocopia de un servicio "
+          ],
           link: "https://erecauda.prefecturanaval.gob.ar/erecauda/bb_form.php",
         },
       ],
@@ -66,7 +81,11 @@ const Home = () => {
       data: [
         {
           item: "Tasa Fija Anual",
-          description: ["Busque su embarcacion e imprima las bolatas"],
+          description: ["Formulario Nº 004 RNBU por duplicado",
+            "Agregar copia CERTIFICADO DE MATRICULA",
+            "Fotocopia DNI ",
+            "Constancia de CUIL o CUIT"
+          ],
           link: "https://erecauda.prefecturanaval.gob.ar/erecauda/bb_form.php",
         },
       ],
