@@ -78,7 +78,7 @@ const AdminDashboard = () => {
       }
 
       if (selectedDate) {
-        // Filtrar por fecha seleccionada
+        // Filtrar por fecha seleccionada y ordenar por hora
         filtered = turnos.filter((turno) => {
           const turnoDate = ensureDate(turno.fecha);
           const selectedDateObj = new Date(selectedDate);
@@ -87,7 +87,7 @@ const AdminDashboard = () => {
             turnoDate.getMonth() === selectedDateObj.getMonth() &&
             turnoDate.getFullYear() === selectedDateObj.getFullYear()
           );
-        });
+        }).sort((a, b) => a.hora.localeCompare(b.hora));
       }
 
       setFilteredTurnos(filtered);

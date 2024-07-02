@@ -21,9 +21,8 @@ const LoginForm = () => {
           const token = await getAccessTokenSilently();
 
           localStorage.setItem("accessToken", token);
+          // eslint-disable-next-line no-unused-vars
           const roles = idTokenClaims["https://turno.com/roles"]; // Reemplaza con el namespace de tus roles
-
-          console.log("Roles del usuario:", roles);
         }
       } catch (error) {
         console.error("Error al obtener el token:", error.message);

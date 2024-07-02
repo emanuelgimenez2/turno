@@ -1,23 +1,42 @@
 /* TurnoForm.css */
+:root {
+  --primary-color: #4a90e2;
+  --primary-light: #f0f7ff;
+  --secondary-color: #2c3e50;
+  --background-color: #f8f9fa;
+  --text-color: #333333;
+  --border-color: #e0e0e0;
+  --error-color: #e74c3c;
+  --success-color: #2ecc71;
+}
+
+body {
+  background-color: var(--background-color);
+  font-family: 'Roboto', sans-serif;
+}
+
 .container-turnform {
-  max-width: 600px;
-  margin: 2rem auto;
+  max-width: 800px;
+  margin: 3rem auto;
   padding: 2rem;
   background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
 .container-turnform h2 {
-  color: #2c3e50;
-  margin-bottom: 1.5rem;
+  color: var(--secondary-color);
+  margin-bottom: 2rem;
   text-align: center;
-  font-size: 1.8rem;
+  font-size: 2.2rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .form-vertical {
   display: grid;
-  gap: 1.5rem;
+  gap: 2rem;
 }
 
 .form-group {
@@ -27,106 +46,187 @@
 
 .label {
   margin-bottom: 0.5rem;
-  color: #34495e;
+  color: var(--secondary-color);
   font-weight: 500;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .input,
 .select,
 textarea.input {
-  padding: 0.75rem;
-  border: 1px solid #bdc3c7;
-  border-radius: 4px;
+  padding: 1rem;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
   font-size: 1rem;
-  transition: border-color 0.3s ease;
+  transition: all 0.3s ease;
+  background-color: #ffffff;
 }
 
 .input:focus,
 .select:focus,
 textarea.input:focus {
   outline: none;
-  border-color: #3498db;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+.input:hover,
+.select:hover,
+textarea.input:hover {
+  border-color: var(--primary-color);
 }
 
 textarea.input {
   resize: vertical;
-  min-height: 100px;
+  min-height: 120px;
 }
 
 .select {
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23333' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%234a90e2' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 0.75rem center;
+  background-position: right 1rem center;
   background-size: 12px;
   padding-right: 2.5rem;
 }
 
 .button {
-  background-color: #3498db;
+  background-color: var(--primary-color);
   color: #ffffff;
   border: none;
-  padding: 0.75rem 1.5rem;
+  padding: 1rem 2rem;
   font-size: 1rem;
-  font-weight: 500;
-  border-radius: 4px;
+  font-weight: 600;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.date-picker-input {
+  padding: 1rem;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background-color: #ffffff;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.button:hover {
-  background-color: #2980b9;
+/* Nueva clase para ajustar el ancho del input de fecha */
+.date-picker-input.short {
+  width: 200px; /* Ajusta este valor según sea necesario */
 }
+s
+
+.button:hover {
+  background-color: #3a7bc8;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(74, 144, 226, 0.2);
+}
+
+.button:active {
+  transform: translateY(0);
+}
+
 .custom-day {
   position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
 }
 
 .cross-icon {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 2px;
+  right: 2px;
+  color: var(--error-color);
 }
 
 .disabled {
-  color: #ccc;
+  color: var(--border-color);
+  text-decoration: line-through;
 }
 
 .error-message {
-  color: #e74c3c;
+  color: var(--error-color);
   font-size: 0.875rem;
-  margin-top: 0.25rem;
+  margin-top: 0.5rem;
+  font-weight: 500;
 }
+
 .date-picker-container {
   position: relative;
 }
 
 .date-picker-input {
-  padding-right: 30px;
+  padding-right: 40px;
 }
 
 .calendar-icon {
   position: absolute;
-  right: 10px;
+  right: 1rem;
   top: 50%;
   transform: translateY(-50%);
   pointer-events: none;
+  color: var(--primary-color);
+}
+
+.react-datepicker-wrapper {
+  width: 100%;
+}
+
+.react-datepicker__input-container {
+  width: 100%;
+}
+
+.react-datepicker__input-container input {
+  width: 100%;
+}
+
+.react-datepicker {
+  font-family: 'Roboto', sans-serif;
+  border: 2px solid var(--primary-color);
+  border-radius: 8px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.react-datepicker__header {
+  background-color: var(--primary-light);
+  border-bottom: none;
+}
+
+.react-datepicker__day--selected {
+  background-color: var(--primary-color);
+  border-radius: 50%;
+}
+
+.react-datepicker__day:hover {
+  background-color: var(--primary-light);
+  border-radius: 50%;
 }
 
 @media (max-width: 768px) {
   .container-turnform {
-    padding: 1.5rem;
     margin: 1rem;
+    padding: 1.5rem;
   }
 
   .form-vertical {
-    gap: 1rem;
+    gap: 1.5rem;
   }
 
   .input,
   .select,
   textarea.input,
   .button {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
   }
 }
 
@@ -141,4 +241,24 @@ textarea.input {
   .button {
     grid-column: span 2;
   }
+}
+
+/* Accessibility improvements */
+.input:focus-visible,
+.select:focus-visible,
+textarea.input:focus-visible,
+.button:focus-visible {
+  outline: 3px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+/* Success message styles */
+.success-message {
+  background-color: var(--success-color);
+  color: #ffffff;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+  text-align: center;
+  font-weight: 500;
 }

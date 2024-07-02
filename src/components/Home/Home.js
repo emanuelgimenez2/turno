@@ -1,19 +1,33 @@
-import React from "react";
-import "./Home.css"; // Archivo CSS local
+import React, { useState } from "react";
+import "./Home.css";
 
 const Home = () => {
-  // Datos de las categorías y tablas
+  const [selectedCategory, setSelectedCategory] = useState("");
+
   const categories = [
     {
-      title: "Carnet Náutico",
+      title: "Habilitación Náutico Deportiva",
       data: [
         {
           item: "Requisitos para el Carnet Náutico",
           description: [
-            "Documento de identidad",
+            "Presentar Copia del acta examen",
             "Certificado médico",
-            "Comprobante de pago",
+            "2 Fotos color Fondo Celeste de Frente",
+            "Fotocopia D.N.I. ",
+            "Constancia de CUIL",
           ],
+          link: "https://www.infobae.com/sociedad/policiales/2024/06/30/caso-loan-la-pericia-al-celular-de-la-tia-laudelina-es-la-pieza-que-falta-en-el-relato/",
+        },
+      ],
+    },
+    {
+      title: "Renovación Náutico Deportiva",
+      data: [
+        {
+          item: "Tasa Fija Anual",
+          description: ["Busque su embarcacion e imprima las bolatas"],
+          link: "https://erecauda.prefecturanaval.gob.ar/erecauda/bb_form.php",
         },
       ],
     },
@@ -22,12 +36,90 @@ const Home = () => {
       data: [
         {
           item: "Tasa Fija Anual",
-          description: [""],
+          description: ["Busque su embarcacion e imprima las bolatas"],
+          link: "https://erecauda.prefecturanaval.gob.ar/erecauda/bb_form.php",
+        },
+      ],
+    },
+    {
+      title: "Autorizacion de manejo",
+      data: [
+        {
+          item: "Tasa Fija Anual",
+          description: ["Busque su embarcacion e imprima las bolatas"],
+          link: "https://erecauda.prefecturanaval.gob.ar/erecauda/bb_form.php",
+        },
+      ],
+    },
+    {
+      title: "Cambio – retiro de motor",
+      data: [
+        {
+          item: "Tasa Fija Anual",
+          description: ["Busque su embarcacion e imprima las bolatas"],
+          link: "https://erecauda.prefecturanaval.gob.ar/erecauda/bb_form.php",
+        },
+      ],
+    },
+    {
+      title: "Estado de  dominio e inhibiciones",
+      data: [
+        {
+          item: "Tasa Fija Anual",
+          description: ["Busque su embarcacion e imprima las bolatas"],
+          link: "https://erecauda.prefecturanaval.gob.ar/erecauda/bb_form.php",
+        },
+      ],
+    },
+    {
+      title: "Inscripcion embarcacion rey de 2 a 9 toneladas",
+      data: [
+        {
+          item: "Tasa Fija Anual",
+          description: ["Busque su embarcacion e imprima las bolatas"],
+          link: "https://erecauda.prefecturanaval.gob.ar/erecauda/bb_form.php",
+        },
+      ],
+    },
+    {
+      title: "Inscripción de una embarcación jurisdiccional",
+      data: [
+        {
+          item: "Tasa Fija Anual",
+          description: ["Busque su embarcacion e imprima las bolatas"],
+          link: "https://erecauda.prefecturanaval.gob.ar/erecauda/bb_form.php",
+        },
+      ],
+    },
+    {
+      title: "Transferencia embarcación rey",
+      data: [
+        {
+          item: "Tasa Fija Anual",
+          description: ["Busque su embarcacion e imprima las bolatas"],
+          link: "https://erecauda.prefecturanaval.gob.ar/erecauda/bb_form.php",
+        },
+      ],
+    },
+    {
+      title: "Transferencia embarcación  jurisdiccionales",
+      data: [
+        {
+          item: "Tasa Fija Anual",
+          description: ["Busque su embarcacion e imprima las bolatas"],
           link: "https://erecauda.prefecturanaval.gob.ar/erecauda/bb_form.php",
         },
       ],
     },
   ];
+
+  const handleCategoryChange = (event) => {
+    setSelectedCategory(event.target.value);
+  };
+
+  const selectedData = categories.find(
+    (category) => category.title === selectedCategory
+  );
 
   return (
     <div className="home-container">
@@ -39,13 +131,28 @@ const Home = () => {
 
       <section className="info-section">
         <h2>Información General</h2>
-        {/* Contenido adicional aquí */}
+        <div className="select-container">
+          <label htmlFor="category-select">Seleccione una categoría:</label>
+          <select
+            id="category-select"
+            value={selectedCategory}
+            onChange={handleCategoryChange}
+          >
+            <option value="">Eliga el tema de su consulta</option>
+
+            {categories.map((category, index) => (
+              <option key={index} value={category.title}>
+                {category.title}
+              </option>
+            ))}
+          </select>
+        </div>
       </section>
 
-      <section className="tables-section">
-        {categories.map((category, index) => (
-          <div key={index} className="table-container">
-            <h3>{category.title}</h3>
+      {selectedData && (
+        <section className="tables-section">
+          <div className="table-container">
+            <h3>{selectedData.title}</h3>
             <table className="data-table">
               <thead>
                 <tr>
@@ -54,7 +161,7 @@ const Home = () => {
                 </tr>
               </thead>
               <tbody>
-                {category.data.map((item, idx) => (
+                {selectedData.data.map((item, idx) => (
                   <tr key={idx}>
                     <td>{item.item}</td>
                     <td>
@@ -62,16 +169,13 @@ const Home = () => {
                         {item.description.map((desc, dIdx) => (
                           <li key={dIdx}>{desc}</li>
                         ))}
-                        {/* Renderizamos el botón solo para el segundo elemento */}
-                        {index === 1 && (
-                          <a
-                            href={item.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                          >
-                            <button>ingrese</button>
-                          </a>
-                        )}
+                        <a
+                          href={item.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <button>Descarga</button>
+                        </a>
                       </ul>
                     </td>
                   </tr>
@@ -79,8 +183,8 @@ const Home = () => {
               </tbody>
             </table>
           </div>
-        ))}
-      </section>
+        </section>
+      )}
     </div>
   );
 };
