@@ -17,6 +17,10 @@ if (!domain || !clientId) {
 
 
 
+
+
+
+
 // 👇️ IMPORTANT: use correct ID of your root element
 // this is the ID of the div in your index.html file
 const container = document.getElementById("root");
