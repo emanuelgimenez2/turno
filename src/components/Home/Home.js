@@ -62,10 +62,10 @@ const Home = () => {
       ],
     },
     {
-      title: "Cambio – retiro de motor",
+      title: "Cambio retiro de motor",
       data: [
         {
-          item: "Cambio – retiro de motor",
+          item: "Cambio retiro de motor",
           description: ["Formulario Nº 003 RNBU CERTIFICADO  por escribano público y COLEGIO",
             "Factura original de compra del motor con sello y firma de la entidad vendedora (en caso de instalación – cambio de motor).",
             "Fotocopia DNI ",
@@ -91,11 +91,19 @@ const Home = () => {
       ],
     },
     {
-      title: "Inscripcion embarcacion rey de 2 a 9 toneladas",
+      title: "Inscripcion embarcacion REY de 2 a 9 toneladas",
       data: [
         {
-          item: "Tasa Fija Anual",
-          description: ["Busque su embarcacion e imprima las bolatas"],
+          item: "Inscripcion embarcacion REY",
+          description: ["Formulario Nº 001 RNBU CERTIFICADO",
+            "Factura original de compra del casco y del motor ",
+            "Certificado de aprobación de prototipo",
+            "Certificado de conformidad de serie",
+            "Certificado de registro de empresa ante PNA",
+            "Fotocopia DNI",
+            "Constancia de CUIL",
+            "Fotocopia de un servicio ",
+            "Traer la embarcación a la dependencia para inspección (DEBERÁ TENER NOMBRE Y REY E/T AMBOS LADOS) (12 CM DE ALTO COMO MÍNIMO)"],
           link: "https://erecauda.prefecturanaval.gob.ar/erecauda/bb_form.php",
         },
       ],
@@ -104,18 +112,32 @@ const Home = () => {
       title: "Inscripción de una embarcación jurisdiccional",
       data: [
         {
-          item: "Tasa Fija Anual",
-          description: ["Busque su embarcacion e imprima las bolatas"],
+          item: "Inscripción jurisdiccional",
+          description: ["Formulario Nº 1 CERTIFICADO ",
+            "Factura original de compra de la embarcación ",
+            "Fotocopia DNI ",
+            "Fotocopia de un servicio ",
+            "Constancia de Cuil ",
+            "Traer la embarcación a la dependencia para inspección.- (DEBERÁ TENER NOMBRE Y CURU E/T AMBOS LADOS) (12 CM DE ALTO COMO MÍNIMO)"
+          ],
           link: "https://erecauda.prefecturanaval.gob.ar/erecauda/bb_form.php",
         },
       ],
     },
     {
-      title: "Transferencia embarcación rey",
+      title: "Transferencia embarcación REY",
       data: [
         {
-          item: "Tasa Fija Anual",
-          description: ["Busque su embarcacion e imprima las bolatas"],
+          item: "Transferencia",
+          description: ["Formulario Nº 002 RNBU anverso y reverso CERTIFICADO",
+            "Formulario Nº 002 RNBU anverso y reverso CERTIFICADO  ",
+            "Fotocopia DNI de COMPRADOR y VENDEDOR",
+            "Fotocopia DNI conyugue del comprador",
+            "Constancia de CUIL ",
+            "Fotocopia de un servicio ",
+            "Formulario 381 (Nuevo Modelo) “Certificado de Bienes Registrales",
+            "Traer la embarcación a la dependencia para (DEBERÁ TENER NOMBRE Y N° DE MATRICULA AMBOS LADOS) (12 CM DE ALTO COMO MÍNIMO) "
+          ],
           link: "https://erecauda.prefecturanaval.gob.ar/erecauda/bb_form.php",
         },
       ],
@@ -124,8 +146,14 @@ const Home = () => {
       title: "Transferencia embarcación  jurisdiccionales",
       data: [
         {
-          item: "Tasa Fija Anual",
-          description: ["Busque su embarcacion e imprima las bolatas"],
+          item: "Transferencia embarcación  jurisdiccionales",
+          description: ["Formulario Nº 2 CERTIFICADO",
+            "CERTIFICADO DE MATRICULA Y CONSTANCIA DE MATRICULA de la embarcación en original",
+            "copia DNI (a color preferentemente) del COMPRADOR y VENDEDOR",
+            "Constancia de CUIL ",
+            "Copia de un servicio ",
+            "Traer la embarcación a la dependencia para inspección.- (deberá tener nombre y N° de Matricula ambos lados) (12 cm de alto como mínimo) "
+          ],
           link: "https://erecauda.prefecturanaval.gob.ar/erecauda/bb_form.php",
         },
       ],

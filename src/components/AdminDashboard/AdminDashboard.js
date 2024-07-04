@@ -10,16 +10,19 @@ const AdminDashboard = () => {
   const [filteredTurnos, setFilteredTurnos] = useState([]);
   const [filterType, setFilterType] = useState('all');
   const [selectedDate, setSelectedDate] = useState(null);
+  const [turnosPorDia, setTurnosPorDia] = useState({});
 
   const ensureDate = (dateValue) => {
     if (dateValue instanceof Date) {
-      return dateValue;
+      return new Date(dateValue.getTime() + dateValue.getTimezoneOffset() * 60000);
     }
     if (dateValue && dateValue.toDate && typeof dateValue.toDate === 'function') {
-      return dateValue.toDate();
+      const date = dateValue.toDate();
+      return new Date(date.getTime() + date.getTimezoneOffset() * 60000);
     }
     if (typeof dateValue === 'string' || typeof dateValue === 'number') {
-      return new Date(dateValue);
+      const date = new Date(dateValue);
+      return new Date(date.getTime() + date.getTimezoneOffset() * 60000);
     }
     console.error('Formato de fecha no reconocido:', dateValue);
     return new Date();
@@ -38,9 +41,18 @@ const AdminDashboard = () => {
             ...data,
             fecha: ensureDate(data.fecha),
           };
-        }).sort((a, b) => ensureDate(a.fecha) - ensureDate(b.fecha));
+        }).sort((a, b) => a.fecha - b.fecha);
 
         setTurnos(turnosData);
+
+        // Contar turnos por día
+        const turnosPorDiaCount = turnosData.reduce((acc, turno) => {
+          const fechaKey = turno.fecha.toDateString();
+          acc[fechaKey] = (acc[fechaKey] || 0) + 1;
+          return acc;
+        }, {});
+
+        setTurnosPorDia(turnosPorDiaCount);
       } catch (error) {
         console.error('Error al obtener los turnos:', error);
       }
@@ -56,32 +68,28 @@ const AdminDashboard = () => {
       if (filterType === 'today') {
         const currentDate = new Date();
         filtered = turnos.filter((turno) => {
-          const turnoDate = ensureDate(turno.fecha);
           return (
-            turnoDate.getDate() === currentDate.getDate() &&
-            turnoDate.getMonth() === currentDate.getMonth() &&
-            turnoDate.getFullYear() === currentDate.getFullYear()
+            turno.fecha.getDate() === currentDate.getDate() &&
+            turno.fecha.getMonth() === currentDate.getMonth() &&
+            turno.fecha.getFullYear() === currentDate.getFullYear()
           );
         });
       } else if (filterType === 'month') {
         const currentDate = new Date();
         filtered = turnos.filter((turno) => {
-          const turnoDate = ensureDate(turno.fecha);
           return (
-            turnoDate.getMonth() === currentDate.getMonth() &&
-            turnoDate.getFullYear() === currentDate.getFullYear()
+            turno.fecha.getMonth() === currentDate.getMonth() &&
+            turno.fecha.getFullYear() === currentDate.getFullYear()
           );
         });
       }
 
       if (selectedDate) {
         filtered = turnos.filter((turno) => {
-          const turnoDate = ensureDate(turno.fecha);
-          const selectedDateObj = new Date(selectedDate);
           return (
-            turnoDate.getDate() === selectedDateObj.getDate() &&
-            turnoDate.getMonth() === selectedDateObj.getMonth() &&
-            turnoDate.getFullYear() === selectedDateObj.getFullYear()
+            turno.fecha.getDate() === selectedDate.getDate() &&
+            turno.fecha.getMonth() === selectedDate.getMonth() &&
+            turno.fecha.getFullYear() === selectedDate.getFullYear()
           );
         }).sort((a, b) => a.hora.localeCompare(b.hora));
       }
@@ -93,8 +101,12 @@ const AdminDashboard = () => {
   }, [filterType, selectedDate, turnos]);
 
   const formatDate = (date) => {
-    const dateObj = ensureDate(date);
-    return dateObj.toLocaleDateString();
+    return date.toLocaleDateString('es-ES', { 
+      weekday: 'long', 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    });
   };
 
   const handleCompleteToggle = async (turnoId, newStatus) => {
@@ -113,6 +125,18 @@ const AdminDashboard = () => {
     } catch (error) {
       console.error('Error al actualizar estado de completado:', error);
     }
+  };
+
+  const renderDayContents = (day, date) => {
+    const fechaKey = date.toDateString();
+    const turnosCount = turnosPorDia[fechaKey] || 0;
+    
+    return (
+      <div className="custom-day-contents">
+        {day}
+        {turnosCount >= 6 && <span className="day-cross">&#10060;</span>}
+      </div>
+    );
   };
 
   return (
@@ -157,7 +181,7 @@ const AdminDashboard = () => {
           placeholderText="Selecciona una fecha"
           className="date-picker"
           locale="es"
-          
+          renderDayContents={renderDayContents}
         />
       </div>
 

@@ -91,6 +91,17 @@ h2 {
   border: 1px solid #ccc;
   border-radius: 4px;
 }
+.custom-day-contents {
+  position: relative;
+}
+
+.day-cross {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  font-size: 10px;
+  color: red;
+}
 
 @media (max-width: 768px) {
   .admin-dashboard-container {
@@ -161,6 +172,7 @@ h2 {
     width: 100%;
     font-size: 0.875rem;
   }
+
 
   .turnos-table th:nth-child(2),
   .turnos-table td:nth-child(2),

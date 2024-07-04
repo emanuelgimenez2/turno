@@ -8,7 +8,7 @@ const Footer = () => {
         <div className="footer-section">
           <h4>Contacto</h4>
           <p>Teléfono: 3442-304053</p>
-          <p>Email: contacto@empresa.com</p>
+          <p>Email: curupolinave@gmail.com</p>
         </div>
         <div className="footer-section">
           <h4>Enlaces útiles</h4>
