@@ -1,46 +1,36 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import { Auth0Provider } from "@auth0/auth0-react";
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+import { FirebaseAuthProvider } from "./components/FirebaseAuthProvider"; // Necesitarás crear este componente
 import App from "./App";
 
-const domain = process.env.REACT_APP_AUTH0_DOMAIN;
-const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
-const audience = process.env.REACT_APP_AUTH0_AUDIENCE;
+const firebaseConfig = {
+  apiKey: process.env.REACT_APP_API_KEY,
+  authDomain: process.env.REACT_APP_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_APP_ID,
+  measurementId: process.env.REACT_APP_MEASUID
+};
 
-console.log("clientId", clientId);
-console.log("audience", audience);
-console.log("domain", domain);
+// Inicializa Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
-if (!domain || !clientId) {
-  throw new Error("Missing Auth0 domain or clientId");
+// Asegúrate de que las variables de entorno estén definidas
+if (!firebaseConfig.apiKey || !firebaseConfig.authDomain) {
+  throw new Error("Missing Firebase configuration");
 }
 
-
-
-
-
-
-
-// 👇️ IMPORTANT: use correct ID of your root element
-// this is the ID of the div in your index.html file
 const container = document.getElementById("root");
 const root = createRoot(container);
 
 root.render(
   <React.StrictMode>
-    <Auth0Provider
-      domain={domain}
-      clientId={clientId}
-      authorizationParams={{
-        redirect_uri: window.location.origin,
-        audience: audience,
-      }}
-      cacheLocation="localstorage"
-      onRedirectCallback={(appState) => {
-        console.log("Auth0 redirect callback", appState);
-      }}
-    >
+    <FirebaseAuthProvider auth={auth}>
       <App />
-    </Auth0Provider>
+    </FirebaseAuthProvider>
   </React.StrictMode>
 );

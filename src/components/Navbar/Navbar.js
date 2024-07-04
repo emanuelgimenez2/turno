@@ -1,23 +1,16 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import LoginForm from '../LoginForm/LoginForm';
-import { useAuth0 } from '@auth0/auth0-react';
-import logo from '../../assets/logo.png'
+import { AuthContext } from '../FirebaseAuthProvider'; // Asegúrate de que la ruta sea correcta
+import logo from '../../assets/logo.png';
 import './Navbar.css';
 
 const Navbar = () => {
-  const { user, isAuthenticated } = useAuth0();
+  const { user, isAdmin } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
-
 
   const toggleNavbar = () => {
     setIsOpen(!isOpen);
-  };
-
-
-  const isAdmin = () => {
-    // Verifica si el usuario tiene el rol de administrador
-    return user && user['https://turno.com/roles'] && user['https://turno.com/roles'].includes('admin');
   };
 
   return (
@@ -45,8 +38,8 @@ const Navbar = () => {
               Agendar Turno
             </Link>
           </li>
-        {/* Mostrar el enlace de administrador solo si el usuario es admin */}
-        {isAuthenticated && isAdmin() && (
+          {/* Mostrar el enlace de administrador solo si el usuario es admin */}
+          {user && isAdmin && (
             <li className="nav-item">
               <Link to="/admin" className="nav-link" onClick={() => setIsOpen(false)}>
                 Admin
@@ -61,5 +54,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-

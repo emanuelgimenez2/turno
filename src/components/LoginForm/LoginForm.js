@@ -1,28 +1,28 @@
-// /src/components/LoginForm/LoginForm.js
-import React, { useEffect } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
+import React, { useContext, useEffect } from "react";
+import { AuthContext } from '../FirebaseAuthProvider'; // Asegúrate de importar desde la ubicación correcta
+import { 
+  signInWithPopup, 
+  GoogleAuthProvider, 
+  signOut,
+  getIdTokenResult
+} from "firebase/auth";
 import "./LoginForm.css"; // Archivo CSS local
 
 const LoginForm = () => {
-  const {
-    loginWithRedirect,
-    isAuthenticated,
-    user,
-    logout,
-    getAccessTokenSilently,
-    getIdTokenClaims,
-  } = useAuth0();
+  const { user, auth } = useContext(AuthContext);
 
   useEffect(() => {
     const getProfileData = async () => {
       try {
-        if (isAuthenticated) {
-          const idTokenClaims = await getIdTokenClaims();
-          const token = await getAccessTokenSilently();
+        if (user) {
+          const idTokenResult = await getIdTokenResult(user);
+          const token = await user.getIdToken();
 
           localStorage.setItem("accessToken", token);
-          // eslint-disable-next-line no-unused-vars
-          const roles = idTokenClaims["https://turno.com/roles"]; // Reemplaza con el namespace de tus roles
+          // Los roles deben ser manejados de manera diferente en Firebase
+          // Por ejemplo, podrías usar custom claims
+          const roles = idTokenResult.claims.roles;
+          console.log('Roles:', roles);
         }
       } catch (error) {
         console.error("Error al obtener el token:", error.message);
@@ -30,24 +30,43 @@ const LoginForm = () => {
     };
 
     getProfileData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAuthenticated, getAccessTokenSilently]);
+  }, [user]);
+
+  const login = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+      await signInWithPopup(auth, provider);
+    } catch (error) {
+      console.error("Error al iniciar sesión:", error.message);
+    }
+  };
+
+  const logout = async () => {
+    try {
+      await signOut(auth);
+    } catch (error) {
+      console.error("Error al cerrar sesión:", error.message);
+    }
+  };
 
   return (
     <div className="login-form-container">
-      {isAuthenticated ? (
+     {/* {user && (
+        <div>
+          <p>Usuario autenticado</p>
+          <p>UID: {user.uid}</p> 
+        </div>
+      )}
+      */}
+      {user ? (
         <>
-          <img src={user.picture} alt={user.name} className="user-avatar" />
-          <button onClick={() => logout({ returnTo: window.location.origin })}>
+          <img src={user.photoURL} alt={user.displayName} className="user-avatar" />
+          <button onClick={logout}>
             Cerrar sesión
           </button>
         </>
       ) : (
-        <button
-          onClick={() =>
-            loginWithRedirect({ callbackUrl: window.location.href })
-          }
-        >
+        <button onClick={login}>
           Iniciar Sesión
         </button>
       )}
