@@ -54,6 +54,8 @@ h2 {
 .turnos-table {
   width: 100%;
   border-collapse: collapse;
+  overflow-x: auto;
+  display: block;
 }
 
 .turnos-table th,
@@ -110,5 +112,60 @@ h2 {
 
   .filters button {
     margin: 5px;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-dashboard-container {
+    padding: 1rem;
+    margin: 2rem auto;
+  }
+
+  .turnos-table {
+    width: 100%;
+    display: block;
+    overflow-x: auto;
+  }
+
+  .turnos-table th,
+  .turnos-table td {
+    padding: 0.5rem;
+    font-size: 0.875rem;
+  }
+
+  .turnos-table th {
+    font-size: 1rem;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  .filters {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .filters button {
+    margin: 5px;
+    padding: 5px 10px;
+    font-size: 0.875rem;
+  }
+
+  .date-picker-container {
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .date-picker {
+    width: 100%;
+    font-size: 0.875rem;
+  }
+
+  .turnos-table th:nth-child(2),
+  .turnos-table td:nth-child(2),
+  .turnos-table th:nth-child(7),
+  .turnos-table td:nth-child(7) {
+    display: none;
   }
 }

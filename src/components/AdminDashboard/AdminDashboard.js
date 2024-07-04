@@ -11,7 +11,6 @@ const AdminDashboard = () => {
   const [filterType, setFilterType] = useState('all');
   const [selectedDate, setSelectedDate] = useState(null);
 
-  // Función auxiliar para asegurarnos de que trabajamos con objetos Date
   const ensureDate = (dateValue) => {
     if (dateValue instanceof Date) {
       return dateValue;
@@ -23,7 +22,7 @@ const AdminDashboard = () => {
       return new Date(dateValue);
     }
     console.error('Formato de fecha no reconocido:', dateValue);
-    return new Date(); // Fecha por defecto si no podemos convertir
+    return new Date();
   };
 
   useEffect(() => {
@@ -55,7 +54,6 @@ const AdminDashboard = () => {
       let filtered = [...turnos];
 
       if (filterType === 'today') {
-        // Filtrar por turnos de hoy
         const currentDate = new Date();
         filtered = turnos.filter((turno) => {
           const turnoDate = ensureDate(turno.fecha);
@@ -66,7 +64,6 @@ const AdminDashboard = () => {
           );
         });
       } else if (filterType === 'month') {
-        // Filtrar por turnos de este mes
         const currentDate = new Date();
         filtered = turnos.filter((turno) => {
           const turnoDate = ensureDate(turno.fecha);
@@ -78,7 +75,6 @@ const AdminDashboard = () => {
       }
 
       if (selectedDate) {
-        // Filtrar por fecha seleccionada y ordenar por hora
         filtered = turnos.filter((turno) => {
           const turnoDate = ensureDate(turno.fecha);
           const selectedDateObj = new Date(selectedDate);
@@ -103,12 +99,10 @@ const AdminDashboard = () => {
 
   const handleCompleteToggle = async (turnoId, newStatus) => {
     try {
-      // Actualizar el estado de completado en la base de datos
       await updateDoc(doc(db, 'turnos', turnoId), {
         completado: newStatus,
       });
 
-      // Actualizar localmente la lista de turnos
       const updatedTurnos = turnos.map((turno) => {
         if (turno.id === turnoId) {
           return { ...turno, completado: newStatus };
@@ -118,7 +112,6 @@ const AdminDashboard = () => {
       setTurnos(updatedTurnos);
     } catch (error) {
       console.error('Error al actualizar estado de completado:', error);
-      // Manejar el error según tus necesidades
     }
   };
 
@@ -131,7 +124,7 @@ const AdminDashboard = () => {
           className={filterType === 'all' ? 'active' : ''}
           onClick={() => {
             setFilterType('all');
-            setSelectedDate(null); // Limpiar fecha seleccionada al cambiar filtro
+            setSelectedDate(null);
           }}
         >
           Todos
@@ -140,7 +133,7 @@ const AdminDashboard = () => {
           className={filterType === 'today' ? 'active' : ''}
           onClick={() => {
             setFilterType('today');
-            setSelectedDate(null); // Limpiar fecha seleccionada al cambiar filtro
+            setSelectedDate(null);
           }}
         >
           Hoy
@@ -149,7 +142,7 @@ const AdminDashboard = () => {
           className={filterType === 'month' ? 'active' : ''}
           onClick={() => {
             setFilterType('month');
-            setSelectedDate(null); // Limpiar fecha seleccionada al cambiar filtro
+            setSelectedDate(null);
           }}
         >
           Este mes
@@ -163,6 +156,8 @@ const AdminDashboard = () => {
           dateFormat="dd/MM/yyyy"
           placeholderText="Selecciona una fecha"
           className="date-picker"
+          locale="es"
+          
         />
       </div>
 
@@ -174,7 +169,7 @@ const AdminDashboard = () => {
             <th>Fecha</th>
             <th>Hora</th>
             <th>Categoría</th>
-            <th>Observaciones</th>
+            <th>Celular</th>
             <th>Completado</th>
           </tr>
         </thead>
@@ -189,7 +184,7 @@ const AdminDashboard = () => {
               <td>{formatDate(turno.fecha)}</td>
               <td>{turno.hora}</td>
               <td>{turno.categoria}</td>
-              <td>{turno.observaciones}</td>
+              <td>{turno.telefono}</td>
               <td>
                 <select
                   className="select"

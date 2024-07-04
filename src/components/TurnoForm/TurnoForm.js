@@ -45,6 +45,7 @@ const TurnoForm = () => {
     });
 
     const fullDatesArray = Object.entries(turnosByDate)
+
       .filter(([, count]) => count >= 6)
       .map(([date]) => new Date(date));
 
