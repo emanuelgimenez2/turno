@@ -179,6 +179,7 @@ const AdminDashboard = () => {
     );
   };
 
+  // eslint-disable-next-line no-unused-vars
   const handleInvalidarFecha = async () => {
     if (nuevaFechaInvalida && razonInvalidacion) {
       try {
@@ -248,7 +249,7 @@ const AdminDashboard = () => {
         />
       </div>
 
-      <div className="date-picker-container">
+      {/* <div className="date-picker-container">
         <h3>Invalidar Fecha</h3>
         <DatePicker
           selected={nuevaFechaInvalida}
@@ -267,7 +268,7 @@ const AdminDashboard = () => {
           className="input"
         />
         <button onClick={handleInvalidarFecha}>Invalidar Fecha</button>
-      </div>
+      </div> */}
       </div>
 
       <table className="turnos-table">
