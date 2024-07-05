@@ -1,128 +1,229 @@
-/* AdminDashboard.css */
+
+/* Estilos generales */
+
 
 .admin-dashboard-container {
   padding: 2rem;
   max-width: 1200px;
   margin: 5rem auto;
-  background-color: #ecf0f1;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  font-family: 'Roboto', sans-serif;
+  background-color: #ffffff;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  overflow: hidden;
 }
 
-h2 {
+/* Encabezado */
+.titulo {
   text-align: center;
+  margin-bottom: 1.5rem;
+  color: var(--primary-color);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* Contenedor de filtros */
+.container-filter {
+  background-color: var(--filter-bg-color);
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   margin-bottom: 2rem;
-  color: #2c3e50;
-  font-size: 2rem;
-  font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.filter-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.filter-section h3 {
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  color: var(--text-color);
 }
 
 .filters {
   display: flex;
   justify-content: center;
-  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 15px;
 }
 
 .filters button {
-  margin: 0 10px;
-  padding: 10px 20px;
-  background-color: #007bff;
+  padding: 12px 25px;
+  background-color: var(--primary-color);
   color: #fff;
   border: none;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+  border-radius: 50px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.filters button:hover {
+  background-color: #2980b9;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }
 
 .filters button.active {
-  background-color: #0056b3;
+  background-color: #2c3e50;
 }
 
-.date-picker-container {
+/* DatePicker y otros inputs */
+.date-picker-container,
+.invalidar-fecha-container {
   display: flex;
-  justify-content: center;
-  margin-bottom: 2rem;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
 }
 
-.date-picker {
-  padding: 10px;
+.date-picker,
+.input {
+  width: 100%;
+  padding: 12px;
   font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: 2px solid var(--primary-color);
+  border-radius: 50px;
+  background-color: #ffffff;
+  color: var(--text-color);
+  transition: all 0.3s ease;
+  margin-bottom: 1rem;
 }
 
+.date-picker:focus,
+.input:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3);
+}
+
+/* Tabla de turnos */
 .turnos-table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0 10px;
   overflow-x: auto;
   display: block;
 }
 
-.turnos-table th,
-.turnos-table td {
-  padding: 1rem;
+.turnos-table th, .turnos-table td {
+  padding: 1.2rem;
   text-align: left;
-  border-bottom: 1px solid #bdc3c7;
 }
 
 .turnos-table th {
-  background-color: #2c3e50;
-  color: #ecf0f1;
+  background-color: var(--primary-color);
+  color: #ffffff;
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .turnos-table td {
+  background-color: #ffffff;
   font-size: 1rem;
-  color: #2c3e50;
+  color: var(--text-color);
+  border-top: 1px solid #e0e0e0;
+  border-bottom: 1px solid #e0e0e0;
 }
 
-.turno-item:hover {
-  background-color: #f0f0f0;
+.turnos-table tr td:first-child {
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-left: 1px solid #e0e0e0;
 }
 
-.turno-item.entramite {
-  background-color: #d1f0d1;
+.turnos-table tr td:last-child {
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border-right: 1px solid #e0e0e0;
 }
 
+.turno-item:hover td {
+  background-color: #f5f5f5;
+  transition: background-color 0.3s ease;
+}
+
+.turno-item.entramite td {
+  background-color: rgba(46, 204, 113, 0.1);
+}
+
+/* Select */
 .select {
-  padding: 8px;
+  width: 100%;
+  padding: 10px 15px;
   font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: 2px solid var(--primary-color);
+  border-radius: 50px;
+  background-color: #ffffff;
+  color: var(--text-color);
+  transition: all 0.3s ease;
+  cursor: pointer;
 }
+
+.select:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.3);
+}
+
+/* Estilos para el día personalizado en el DatePicker */
 .custom-day-contents {
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.day-cross,
+.day-invalid {
+  position: absolute;
+  font-size: 10px;
+  color: var(--accent-color);
 }
 
 .day-cross {
-  position: absolute;
-  top: -5px;
-  right: -5px;
-  font-size: 10px;
-  color: red;
+  top: 2px;
+  right: 2px;
 }
 
+.day-invalid {
+  top: 2px;
+  left: 2px;
+}
+
+/* Responsive design */
 @media (max-width: 768px) {
   .admin-dashboard-container {
-    padding: 1rem;
-  }
-
-  .turnos-table th,
-  .turnos-table td {
-    padding: 0.5rem;
-  }
-
-  h2 {
-    font-size: 1.5rem;
+    padding: 1.5rem;
+    margin: 3rem auto;
   }
 
   .filters {
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: stretch;
   }
 
   .filters button {
-    margin: 5px;
+    width: 100%;
+  }
+
+  .turnos-table th, .turnos-table td {
+    padding: 0.8rem;
+  }
+
+  .titulo {
+    font-size: 1.8rem;
   }
 }
 
@@ -130,54 +231,37 @@ h2 {
   .admin-dashboard-container {
     padding: 1rem;
     margin: 2rem auto;
+    border-radius: 15px;
   }
 
-  .turnos-table {
-    width: 100%;
-    display: block;
-    overflow-x: auto;
-  }
-
-  .turnos-table th,
-  .turnos-table td {
-    padding: 0.5rem;
+  .turnos-table th, .turnos-table td {
+    padding: 0.6rem;
     font-size: 0.875rem;
   }
 
-  .turnos-table th {
-    font-size: 1rem;
-  }
-
-  h2 {
+  .titulo {
     font-size: 1.5rem;
   }
 
-  .filters {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
   .filters button {
-    margin: 5px;
-    padding: 5px 10px;
+    padding: 10px 15px;
     font-size: 0.875rem;
   }
 
-  .date-picker-container {
-    justify-content: center;
-    flex-direction: column;
+  .date-picker-container,
+  .invalidar-fecha-container {
+    max-width: 100%;
   }
 
-  .date-picker {
+  /* .date-picker,
+  .input {
     width: 100%;
     font-size: 0.875rem;
-  }
+  } */
 
-
-  .turnos-table th:nth-child(2),
-  .turnos-table td:nth-child(2),
-  .turnos-table th:nth-child(7),
-  .turnos-table td:nth-child(7) {
+  .turnos-table th:nth-child(2), .turnos-table td:nth-child(2),
+  .turnos-table th:nth-child(4), .turnos-table td:nth-child(4),
+  .turnos-table th:nth-child(7), .turnos-table td:nth-child(7) {
     display: none;
   }
 }

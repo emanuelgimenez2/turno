@@ -1,47 +1,65 @@
-import React, { useEffect, useState } from 'react';
-import './AdminDashboard.css';
-import { db } from '../../firebase';
-import { collection, getDocs, updateDoc, doc } from 'firebase/firestore';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import React, { useEffect, useState } from "react";
+import "./AdminDashboard.css";
+import { db } from "../../firebase";
+import {
+  collection,
+  getDocs,
+  updateDoc,
+  doc,
+  setDoc,
+} from "firebase/firestore";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const AdminDashboard = () => {
   const [turnos, setTurnos] = useState([]);
   const [filteredTurnos, setFilteredTurnos] = useState([]);
-  const [filterType, setFilterType] = useState('all');
+  const [filterType, setFilterType] = useState("all");
   const [selectedDate, setSelectedDate] = useState(null);
   const [turnosPorDia, setTurnosPorDia] = useState({});
+  const [fechasInvalidas, setFechasInvalidas] = useState([]);
+  const [nuevaFechaInvalida, setNuevaFechaInvalida] = useState(null);
+  const [razonInvalidacion, setRazonInvalidacion] = useState("");
 
   const ensureDate = (dateValue) => {
     if (dateValue instanceof Date) {
-      return new Date(dateValue.getTime() + dateValue.getTimezoneOffset() * 60000);
+      return new Date(
+        dateValue.getTime() + dateValue.getTimezoneOffset() * 60000
+      );
     }
-    if (dateValue && dateValue.toDate && typeof dateValue.toDate === 'function') {
+    if (
+      dateValue &&
+      dateValue.toDate &&
+      typeof dateValue.toDate === "function"
+    ) {
       const date = dateValue.toDate();
       return new Date(date.getTime() + date.getTimezoneOffset() * 60000);
     }
-    if (typeof dateValue === 'string' || typeof dateValue === 'number') {
+    if (typeof dateValue === "string" || typeof dateValue === "number") {
       const date = new Date(dateValue);
       return new Date(date.getTime() + date.getTimezoneOffset() * 60000);
     }
-    console.error('Formato de fecha no reconocido:', dateValue);
+    console.error("Formato de fecha no reconocido:", dateValue);
     return new Date();
   };
 
   useEffect(() => {
-    const fetchTurnos = async () => {
+    const fetchData = async () => {
       try {
-        const turnosCollection = collection(db, 'turnos');
-        const snapshot = await getDocs(turnosCollection);
+        // Fetch turnos
+        const turnosCollection = collection(db, "turnos");
+        const turnosSnapshot = await getDocs(turnosCollection);
 
-        const turnosData = snapshot.docs.map((doc) => {
-          const data = doc.data();
-          return {
-            id: doc.id,
-            ...data,
-            fecha: ensureDate(data.fecha),
-          };
-        }).sort((a, b) => a.fecha - b.fecha);
+        const turnosData = turnosSnapshot.docs
+          .map((doc) => {
+            const data = doc.data();
+            return {
+              id: doc.id,
+              ...data,
+              fecha: ensureDate(data.fecha),
+            };
+          })
+          .sort((a, b) => a.fecha - b.fecha);
 
         setTurnos(turnosData);
 
@@ -53,19 +71,32 @@ const AdminDashboard = () => {
         }, {});
 
         setTurnosPorDia(turnosPorDiaCount);
+
+        // Fetch fechas inválidas
+        const fechasInvalidasCollection = collection(db, "fechasInvalidas");
+        const fechasInvalidasSnapshot = await getDocs(
+          fechasInvalidasCollection
+        );
+
+        const fechasInvalidasData = fechasInvalidasSnapshot.docs.map((doc) => ({
+          fecha: ensureDate(doc.data().fecha),
+          razon: doc.data().razon,
+        }));
+
+        setFechasInvalidas(fechasInvalidasData);
       } catch (error) {
-        console.error('Error al obtener los turnos:', error);
+        console.error("Error al obtener los datos:", error);
       }
     };
 
-    fetchTurnos();
+    fetchData();
   }, []);
 
   useEffect(() => {
     const filterTurnos = () => {
       let filtered = [...turnos];
 
-      if (filterType === 'today') {
+      if (filterType === "today") {
         const currentDate = new Date();
         filtered = turnos.filter((turno) => {
           return (
@@ -74,7 +105,7 @@ const AdminDashboard = () => {
             turno.fecha.getFullYear() === currentDate.getFullYear()
           );
         });
-      } else if (filterType === 'month') {
+      } else if (filterType === "month") {
         const currentDate = new Date();
         filtered = turnos.filter((turno) => {
           return (
@@ -85,13 +116,15 @@ const AdminDashboard = () => {
       }
 
       if (selectedDate) {
-        filtered = turnos.filter((turno) => {
-          return (
-            turno.fecha.getDate() === selectedDate.getDate() &&
-            turno.fecha.getMonth() === selectedDate.getMonth() &&
-            turno.fecha.getFullYear() === selectedDate.getFullYear()
-          );
-        }).sort((a, b) => a.hora.localeCompare(b.hora));
+        filtered = turnos
+          .filter((turno) => {
+            return (
+              turno.fecha.getDate() === selectedDate.getDate() &&
+              turno.fecha.getMonth() === selectedDate.getMonth() &&
+              turno.fecha.getFullYear() === selectedDate.getFullYear()
+            );
+          })
+          .sort((a, b) => a.hora.localeCompare(b.hora));
       }
 
       setFilteredTurnos(filtered);
@@ -101,17 +134,17 @@ const AdminDashboard = () => {
   }, [filterType, selectedDate, turnos]);
 
   const formatDate = (date) => {
-    return date.toLocaleDateString('es-ES', { 
-      weekday: 'long', 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric' 
+    return date.toLocaleDateString("es-ES", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
     });
   };
 
   const handleCompleteToggle = async (turnoId, newStatus) => {
     try {
-      await updateDoc(doc(db, 'turnos', turnoId), {
+      await updateDoc(doc(db, "turnos", turnoId), {
         completado: newStatus,
       });
 
@@ -123,49 +156,78 @@ const AdminDashboard = () => {
       });
       setTurnos(updatedTurnos);
     } catch (error) {
-      console.error('Error al actualizar estado de completado:', error);
+      console.error("Error al actualizar estado de completado:", error);
     }
   };
 
   const renderDayContents = (day, date) => {
     const fechaKey = date.toDateString();
     const turnosCount = turnosPorDia[fechaKey] || 0;
-    
+    const esFechaInvalida = fechasInvalidas.some(
+      (fi) =>
+        fi.fecha.getDate() === date.getDate() &&
+        fi.fecha.getMonth() === date.getMonth() &&
+        fi.fecha.getFullYear() === date.getFullYear()
+    );
+
     return (
       <div className="custom-day-contents">
         {day}
         {turnosCount >= 6 && <span className="day-cross">&#10060;</span>}
+        {esFechaInvalida && <span className="day-invalid">&#128683;</span>}
       </div>
     );
+  };
+
+  const handleInvalidarFecha = async () => {
+    if (nuevaFechaInvalida && razonInvalidacion) {
+      try {
+        const fechaInvalidaRef = doc(collection(db, "fechasInvalidas"));
+        await setDoc(fechaInvalidaRef, {
+          fecha: nuevaFechaInvalida,
+          razon: razonInvalidacion,
+        });
+
+        setFechasInvalidas([
+          ...fechasInvalidas,
+          { fecha: nuevaFechaInvalida, razon: razonInvalidacion },
+        ]);
+        setNuevaFechaInvalida(null);
+        setRazonInvalidacion("");
+      } catch (error) {
+        console.error("Error al invalidar la fecha:", error);
+      }
+    }
   };
 
   return (
     <div className="admin-dashboard-container">
       <h2>Panel de Administración</h2>
-
+      <div className="container-filter">
+      <h3>Filtros</h3>
       <div className="filters">
         <button
-          className={filterType === 'all' ? 'active' : ''}
+          className={filterType === "all" ? "active" : ""}
           onClick={() => {
-            setFilterType('all');
+            setFilterType("all");
             setSelectedDate(null);
           }}
         >
           Todos
         </button>
         <button
-          className={filterType === 'today' ? 'active' : ''}
+          className={filterType === "today" ? "active" : ""}
           onClick={() => {
-            setFilterType('today');
+            setFilterType("today");
             setSelectedDate(null);
           }}
         >
           Hoy
         </button>
         <button
-          className={filterType === 'month' ? 'active' : ''}
+          className={filterType === "month" ? "active" : ""}
           onClick={() => {
-            setFilterType('month');
+            setFilterType("month");
             setSelectedDate(null);
           }}
         >
@@ -174,6 +236,7 @@ const AdminDashboard = () => {
       </div>
 
       <div className="date-picker-container">
+        <h3>Buscar turnos por fecha</h3>
         <DatePicker
           selected={selectedDate}
           onChange={(date) => setSelectedDate(date)}
@@ -183,6 +246,28 @@ const AdminDashboard = () => {
           locale="es"
           renderDayContents={renderDayContents}
         />
+      </div>
+
+      <div className="date-picker-container">
+        <h3>Invalidar Fecha</h3>
+        <DatePicker
+          selected={nuevaFechaInvalida}
+          onChange={(date) => setNuevaFechaInvalida(date)}
+          dateFormat="dd/MM/yyyy"
+          placeholderText="Selecciona una fecha para invalidar"
+          className="date-picker"
+          locale="es"
+          minDate={new Date()}
+        />
+        <input
+          type="text"
+          value={razonInvalidacion}
+          onChange={(e) => setRazonInvalidacion(e.target.value)}
+          placeholder="Razón de invalidación"
+          className="input"
+        />
+        <button onClick={handleInvalidarFecha}>Invalidar Fecha</button>
+      </div>
       </div>
 
       <table className="turnos-table">
@@ -201,7 +286,9 @@ const AdminDashboard = () => {
           {filteredTurnos.map((turno) => (
             <tr
               key={turno.id}
-              className={`turno-item ${turno.completado === 'entramite' ? 'entramite' : ''}`}
+              className={`turno-item ${
+                turno.completado === "entramite" ? "entramite" : ""
+              }`}
             >
               <td>{turno.nombreApellido}</td>
               <td>{turno.descripcion}</td>
@@ -213,7 +300,9 @@ const AdminDashboard = () => {
                 <select
                   className="select"
                   value={turno.completado}
-                  onChange={(e) => handleCompleteToggle(turno.id, e.target.value)}
+                  onChange={(e) =>
+                    handleCompleteToggle(turno.id, e.target.value)
+                  }
                 >
                   <option value="esperando">Esperando</option>
                   <option value="completado">Completado</option>
