@@ -168,7 +168,7 @@ const TurnoForm = () => {
               filterDate={(date) => !isDateDisabled(date)}
               renderDayContents={renderDayContents}
               placeholderText="Seleccione una fecha"
-              className="input date-picker-input"
+              className="date-picker-input"
               locale="es"
               dateFormat="dd/MM/yyyy"
               calendarIcon={renderCalendarIcon()}
