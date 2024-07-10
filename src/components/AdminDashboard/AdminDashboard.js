@@ -3,7 +3,8 @@ import { collection, getDocs, updateDoc, doc, setDoc } from "firebase/firestore"
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { db } from "../../firebase";
-import "./AdminDashboard.css"
+import "./AdminDashboard.css";
+import DetalleTurno from "../DetalleTurno/DetalleTurno"; // Importar el componente DetalleTurno aquí
 
 const AdminDashboard = () => {
   const [turnos, setTurnos] = useState([]);
@@ -15,6 +16,7 @@ const AdminDashboard = () => {
   const [nuevaFechaInvalida, setNuevaFechaInvalida] = useState(null);
   const [razonInvalidacion, setRazonInvalidacion] = useState("");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [detalleTurno, setDetalleTurno] = useState(null); // Estado para almacenar el turno seleccionado
 
   const ensureDate = (dateValue) => {
     if (dateValue instanceof Date) {
@@ -173,21 +175,29 @@ const AdminDashboard = () => {
       }
     }
   };
+
+  const handleVerDetalle = (turno) => {
+    setDetalleTurno(turno); // Almacenar el turno seleccionado en el estado detalleTurno
+  };
+
+  const handleCloseDetalle = () => {
+    setDetalleTurno(null); // Limpiar el estado detalleTurno al cerrar el detalle del turno
+  };
   
   return (
     <div className="admin-dashboard">
-    <div className="container" >
-      <nav className="dashboardnavbar">
-        <div className="navbar-container">
-          <h1>Panel de Administración</h1>
-          <button
-            className="menu-toggle"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            ☰
-          </button>
-        </div>
-      </nav>
+      <div className="container">
+        <nav className="dashboardnavbar">
+          <div className="navbar-container">
+            <h1>Panel de Administración</h1>
+            <button
+              className="menu-toggle"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              ☰
+            </button>
+          </div>
+        </nav>
       </div>
 
       <div className="dashboard-container">
@@ -255,24 +265,25 @@ const AdminDashboard = () => {
             <thead>
               <tr>
                 <th>Nombre y Apellido</th>
-                <th className="desktop-only">Descripción</th>
+                {/* <th className="desktop-only">Descripción</th> */}
                 <th>Fecha</th>
                 <th>Hora</th>
-                <th>Categoría</th>
+                {/* <th>Categoría</th> */}
                 <th>Celular</th>
-                <th className="desktop-only">Completado</th>
+                {/* <th className="desktop-only">Completado</th> */}
+                <th>Acciones</th> {/* Nueva columna para acciones */}
               </tr>
             </thead>
             <tbody>
               {filteredTurnos.map((turno) => (
                 <tr key={turno.id} className={turno.completado === "entramite" ? "entramite" : ""}>
                   <td>{turno.nombreApellido}</td>
-                  <td className="desktop-only">{turno.descripcion}</td>
+                  {/* <td className="desktop-only">{turno.descripcion}</td> */}
                   <td>{formatDate(turno.fecha)}</td>
                   <td>{turno.hora}</td>
-                  <td>{turno.categoria}</td>
+                  {/* <td>{turno.categoria}</td> */}
                   <td>{turno.telefono}</td>
-                  <td className="desktop-only">
+                  {/* <td className="desktop-only">
                     <select
                       className="completado-select"
                       value={turno.completado}
@@ -282,6 +293,9 @@ const AdminDashboard = () => {
                       <option value="completado">Completado</option>
                       <option value="entramite">En trámite</option>
                     </select>
+                  </td> */}
+                  <td>
+                    <button onClick={() => handleVerDetalle(turno)}>Ver</button> {/* Botón para ver detalles */}
                   </td>
                 </tr>
               ))}
@@ -289,6 +303,15 @@ const AdminDashboard = () => {
           </table>
         </div>
       </div>
+
+      {/* Mostrar DetalleTurno si hay un turno seleccionado */}
+      {detalleTurno && (
+        <div className="detalle-turno-overlay">
+          <div className="detalle-turno-container">
+            <DetalleTurno turno={detalleTurno} onClose={handleCloseDetalle} />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

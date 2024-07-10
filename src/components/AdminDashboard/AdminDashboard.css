@@ -25,6 +25,11 @@
 .navbar-container {
   max-width: 1200px;
   margin: 50 auto;
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+ /* Centra verticalmente */
+  height: 15vh; /* Ajusta según sea necesario */
+  padding: 0 1rem;
  
 }
 
