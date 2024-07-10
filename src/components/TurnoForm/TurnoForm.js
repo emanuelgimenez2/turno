@@ -32,6 +32,7 @@ const TurnoForm = () => {
   const [bookedHours, setBookedHours] = useState([]);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [fullDates, setFullDates] = useState([]);
+  const [invalidDates, setInvalidDates] = useState([]);
   const [message, setMessage] = useState("");
 
   const fetchFullDates = useCallback(async () => {
@@ -45,16 +46,23 @@ const TurnoForm = () => {
     });
 
     const fullDatesArray = Object.entries(turnosByDate)
-
       .filter(([, count]) => count >= 6)
       .map(([date]) => new Date(date));
 
     setFullDates(fullDatesArray);
   }, []);
 
+  const fetchInvalidDates = useCallback(async () => {
+    const q = query(collection(db, "fechasInvalidas"));
+    const querySnapshot = await getDocs(q);
+    const invalidDatesArray = querySnapshot.docs.map((doc) => new Date(doc.data().fecha));
+    setInvalidDates(invalidDatesArray);
+  }, []);
+
   useEffect(() => {
     fetchFullDates();
-  }, [fetchFullDates]);
+    fetchInvalidDates();
+  }, [fetchFullDates, fetchInvalidDates]);
 
   const fetchBookedHours = useCallback(async (selectedDate) => {
     if (!selectedDate) return;
@@ -104,13 +112,17 @@ const TurnoForm = () => {
   const isDateDisabled = (date) => {
     const fullDatesISO = fullDates.map(
       (fullDate) => fullDate.toISOString().split("T")[0]
-    ); // Convertimos fullDates a un array de fechas en formato ISO string
+    );
+    const invalidDatesISO = invalidDates.map(
+      (invalidDate) => invalidDate.toISOString().split("T")[0]
+    );
 
-    const selectedDateISO = date.toISOString().split("T")[0]; // Convertimos la fecha seleccionada a formato ISO string
+    const selectedDateISO = date.toISOString().split("T")[0];
 
     return (
-      fullDatesISO.includes(selectedDateISO) || // Verifica si la fecha está en fullDates
-      isWeekend(date) // Verifica si es fin de semana (sábado o domingo)
+      fullDatesISO.includes(selectedDateISO) ||
+      invalidDatesISO.includes(selectedDateISO) ||
+      isWeekend(date)
     );
   };
 
@@ -215,19 +227,8 @@ const TurnoForm = () => {
             value: /^[0-9]{10}$/,
             message: "El número de teléfono debe tener 10 dígitos",
           }}
-        
           error={errors.telefono}
         />
-       
-          {message && (
-            <Message
-              title="Error de fecha"
-              message={message}
-              type="error"
-              onClose={() => setMessage("")}
-            />
-          )}
-       
 
         <button type="submit" className="button">
           Guardar cambios
