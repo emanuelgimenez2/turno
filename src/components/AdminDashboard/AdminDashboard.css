@@ -2,14 +2,24 @@
   font-family: Arial, sans-serif;
   background-color: #f0f0f0;
   min-height: 100vh;
-  margin: 6rem auto 2rem;
+  margin: 2rem auto 2rem;
+  
+}
+.container {
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+ /* Centra verticalmente */
+  height: 15vh; /* Ajusta según sea necesario */
+  padding: 0 1rem;
 }
 
 .dashboardnavbar {
   background-color: #3498db;
   color: white;
-  padding: 1rem;
-
+  padding: 1em;
+  width: 800px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .navbar-container {

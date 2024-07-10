@@ -63,6 +63,7 @@ const AdminDashboard = () => {
           razon: doc.data().razon,
         }));
         setFechasInvalidas(fechasInvalidasData);
+        
       } catch (error) {
         console.error("Error al obtener los datos:", error);
       }
@@ -155,14 +156,15 @@ const AdminDashboard = () => {
   const handleInvalidarFecha = async () => {
     if (nuevaFechaInvalida && razonInvalidacion) {
       try {
+        const formattedDate = nuevaFechaInvalida.toISOString().split('T')[0];
         const fechaInvalidaRef = doc(collection(db, "fechasInvalidas"));
         await setDoc(fechaInvalidaRef, {
-          fecha: nuevaFechaInvalida,
+          fecha: formattedDate,
           razon: razonInvalidacion,
         });
         setFechasInvalidas([
           ...fechasInvalidas,
-          { fecha: nuevaFechaInvalida, razon: razonInvalidacion },
+          { fecha: formattedDate, razon: razonInvalidacion },
         ]);
         setNuevaFechaInvalida(null);
         setRazonInvalidacion("");
@@ -171,8 +173,10 @@ const AdminDashboard = () => {
       }
     }
   };
+  
   return (
     <div className="admin-dashboard">
+    <div className="container" >
       <nav className="dashboardnavbar">
         <div className="navbar-container">
           <h1>Panel de Administración</h1>
@@ -184,6 +188,7 @@ const AdminDashboard = () => {
           </button>
         </div>
       </nav>
+      </div>
 
       <div className="dashboard-container">
         <div className={`filters-section ${isMenuOpen ? 'open' : ''}`}>

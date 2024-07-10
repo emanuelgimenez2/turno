@@ -53,10 +53,23 @@ const TurnoForm = () => {
   }, []);
 
   const fetchInvalidDates = useCallback(async () => {
-    const q = query(collection(db, "fechasInvalidas"));
-    const querySnapshot = await getDocs(q);
-    const invalidDatesArray = querySnapshot.docs.map((doc) => new Date(doc.data().fecha));
-    setInvalidDates(invalidDatesArray);
+    try {
+      const q = query(collection(db, "fechasInvalidas"));
+      const querySnapshot = await getDocs(q);
+      
+
+      const invalidDatesArray = querySnapshot.docs.map((doc) => {
+        const { fecha } = doc.data();
+      
+        return new Date(fecha);
+      });
+
+      
+      setInvalidDates(invalidDatesArray);
+    } catch (error) {
+      console.error("Error al obtener fechas inválidas:", error);
+      setMessage("Error al cargar fechas inválidas. Por favor, recarga la página.");
+    }
   }, []);
 
   useEffect(() => {
@@ -110,20 +123,17 @@ const TurnoForm = () => {
   };
 
   const isDateDisabled = (date) => {
-    const fullDatesISO = fullDates.map(
-      (fullDate) => fullDate.toISOString().split("T")[0]
-    );
-    const invalidDatesISO = invalidDates.map(
-      (invalidDate) => invalidDate.toISOString().split("T")[0]
-    );
-
     const selectedDateISO = date.toISOString().split("T")[0];
 
-    return (
-      fullDatesISO.includes(selectedDateISO) ||
-      invalidDatesISO.includes(selectedDateISO) ||
-      isWeekend(date)
+    const isFullDate = fullDates.some(
+      (fullDate) => fullDate.toISOString().split("T")[0] === selectedDateISO
     );
+
+    const isInvalidDate = invalidDates.some(
+      (invalidDate) => invalidDate.toISOString().split("T")[0] === selectedDateISO
+    );
+
+    return isFullDate || isInvalidDate || isWeekend(date);
   };
 
   const renderDayContents = (day, date) => {
