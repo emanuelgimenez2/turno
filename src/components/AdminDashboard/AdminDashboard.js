@@ -4,7 +4,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { db } from "../../firebase";
 import "./AdminDashboard.css";
-import DetalleTurno from "../DetalleTurno/DetalleTurno"; // Importar el componente DetalleTurno aquí
+import DetalleTurno from "../DetalleTurno/DetalleTurno";
 
 const AdminDashboard = () => {
   const [turnos, setTurnos] = useState([]);
@@ -16,7 +16,8 @@ const AdminDashboard = () => {
   const [nuevaFechaInvalida, setNuevaFechaInvalida] = useState(null);
   const [razonInvalidacion, setRazonInvalidacion] = useState("");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [detalleTurno, setDetalleTurno] = useState(null); // Estado para almacenar el turno seleccionado
+  const [detalleTurno, setDetalleTurno] = useState(null);
+  const [showTable, setShowTable] = useState(true);
 
   const ensureDate = (dateValue) => {
     if (dateValue instanceof Date) {
@@ -140,10 +141,14 @@ const AdminDashboard = () => {
     const fechaKey = date.toDateString();
     const turnosCount = turnosPorDia[fechaKey] || 0;
     const esFechaInvalida = fechasInvalidas.some(
-      (fi) =>
-        fi.fecha.getDate() === date.getDate() &&
-        fi.fecha.getMonth() === date.getMonth() &&
-        fi.fecha.getFullYear() === date.getFullYear()
+      (fi) => {
+        const fiDate = ensureDate(fi.fecha);
+        return (
+          fiDate.getDate() === date.getDate() &&
+          fiDate.getMonth() === date.getMonth() &&
+          fiDate.getFullYear() === date.getFullYear()
+        );
+      }
     );
 
     return (
@@ -166,7 +171,7 @@ const AdminDashboard = () => {
         });
         setFechasInvalidas([
           ...fechasInvalidas,
-          { fecha: formattedDate, razon: razonInvalidacion },
+          { fecha: ensureDate(formattedDate), razon: razonInvalidacion },
         ]);
         setNuevaFechaInvalida(null);
         setRazonInvalidacion("");
@@ -177,11 +182,13 @@ const AdminDashboard = () => {
   };
 
   const handleVerDetalle = (turno) => {
-    setDetalleTurno(turno); // Almacenar el turno seleccionado en el estado detalleTurno
+    setDetalleTurno(turno);
+    setShowTable(false);
   };
 
   const handleCloseDetalle = () => {
-    setDetalleTurno(null); // Limpiar el estado detalleTurno al cerrar el detalle del turno
+    setDetalleTurno(null);
+    setShowTable(true);
   };
   
   return (
@@ -260,58 +267,41 @@ const AdminDashboard = () => {
           </div>
         </div>
 
-        <div className="table-container">
-          <table className="turnos-table">
-            <thead>
-              <tr>
-                <th>Nombre y Apellido</th>
-                {/* <th className="desktop-only">Descripción</th> */}
-                <th>Fecha</th>
-                <th>Hora</th>
-                {/* <th>Categoría</th> */}
-                <th>Celular</th>
-                {/* <th className="desktop-only">Completado</th> */}
-                <th>Acciones</th> {/* Nueva columna para acciones */}
-              </tr>
-            </thead>
-            <tbody>
-              {filteredTurnos.map((turno) => (
-                <tr key={turno.id} className={turno.completado === "entramite" ? "entramite" : ""}>
-                  <td>{turno.nombreApellido}</td>
-                  {/* <td className="desktop-only">{turno.descripcion}</td> */}
-                  <td>{formatDate(turno.fecha)}</td>
-                  <td>{turno.hora}</td>
-                  {/* <td>{turno.categoria}</td> */}
-                  <td>{turno.telefono}</td>
-                  {/* <td className="desktop-only">
-                    <select
-                      className="completado-select"
-                      value={turno.completado}
-                      onChange={(e) => handleCompleteToggle(turno.id, e.target.value)}
-                    >
-                      <option value="esperando">Esperando</option>
-                      <option value="completado">Completado</option>
-                      <option value="entramite">En trámite</option>
-                    </select>
-                  </td> */}
-                  <td>
-                    <button onClick={() => handleVerDetalle(turno)}>Ver</button> {/* Botón para ver detalles */}
-                  </td>
+        {showTable ? (
+          <div className="table-container">
+            <table className="turnos-table">
+              <thead>
+                <tr>
+                  <th>Nombre y Apellido</th>
+                  <th>Fecha</th>
+                  <th>Hora</th>
+                  <th>Celular</th>
+                  <th>Acciones</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      {/* Mostrar DetalleTurno si hay un turno seleccionado */}
-      {detalleTurno && (
-        <div className="detalle-turno-overlay">
-          <div className="detalle-turno-container">
-            <DetalleTurno turno={detalleTurno} onClose={handleCloseDetalle} />
+              </thead>
+              <tbody>
+                {filteredTurnos.map((turno) => (
+                  <tr key={turno.id} className={turno.completado === "entramite" ? "entramite" : ""}>
+                    <td>{turno.nombreApellido}</td>
+                    <td>{formatDate(turno.fecha)}</td>
+                    <td>{turno.hora}</td>
+                    <td>{turno.telefono}</td>
+                    <td>
+                      <button onClick={() => handleVerDetalle(turno)}>Ver</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
-        </div>
-      )}
+        ) : (
+          detalleTurno && (
+            <div className="detalle-turno-container">
+              <DetalleTurno turno={detalleTurno} onClose={handleCloseDetalle} />
+            </div>
+          )
+        )}
+      </div>
     </div>
   );
 };

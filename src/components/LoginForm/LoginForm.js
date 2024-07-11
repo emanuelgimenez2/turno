@@ -61,7 +61,7 @@ const LoginForm = () => {
       {user ? (
         <>
           <img src={user.photoURL} alt={user.displayName} className="user-avatar" />
-          <button onClick={logout}>
+          <button  onClick={logout}>
             Cerrar sesión
           </button>
         </>
