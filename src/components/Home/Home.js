@@ -17,7 +17,7 @@ const Home = () => {
             "Fotocopia D.N.I. ",
             "Constancia de CUIL",
           ],
-          link: "https://www.infobae.com/sociedad/policiales/2024/06/30/caso-loan-la-pericia-al-celular-de-la-tia-laudelina-es-la-pieza-que-falta-en-el-relato/",
+          link: "https://drive.google.com/file/d/1B3FK59BM_N7OM3r301QClbyTBvF7bA_J/view?usp=drive_link",
         },
       ],
     },
@@ -32,7 +32,7 @@ const Home = () => {
             "Fotocopia DNI",
             "	Constancia cuil."
           ],
-          link: "https://erecauda.prefecturanaval.gob.ar/erecauda/bb_form.php",
+          link: "https://drive.google.com/file/d/16VwkwAJ4XGISAJYP34Jpd0BR1ZikBwWT/view?usp=drive_link",
         },
       ],
     },
@@ -41,7 +41,7 @@ const Home = () => {
       data: [
         {
           item: "Tasa Fija Anual",
-          description: ["Busque su embarcacion e imprima las bolatas"],
+          description: ["Busque su embarcacion e imprima las boletas"],
           link: "https://erecauda.prefecturanaval.gob.ar/erecauda/bb_form.php",
         },
       ],
@@ -57,12 +57,12 @@ const Home = () => {
             "Fotocopia Habilitación Náutica Deportiva",
             "Constancia de CUIL O CUIT "
           ],
-          link: "https://erecauda.prefecturanaval.gob.ar/erecauda/bb_form.php",
+          link: "https://drive.google.com/file/d/1fcJU4kom8dbFNXhpJzPGhJk1egFSPJKq/view?usp=drive_link",
         },
       ],
     },
     {
-      title: "Cambio retiro de motor",
+      title: "Cambio retiro de motor embarcación jurisdiccional ",
       data: [
         {
           item: "Cambio retiro de motor",
@@ -72,7 +72,22 @@ const Home = () => {
             "Constancia de CUIL o CUIT",
             "Fotocopia de un servicio "
           ],
-          link: "https://erecauda.prefecturanaval.gob.ar/erecauda/bb_form.php",
+          link: "https://drive.google.com/file/d/1ScytuzWXVHPKYPqAKyjSOiUqWbDXNn95/view?usp=drive_link",
+        },
+      ],
+    },
+    {
+      title: "Cambio retiro de motor embarcacion REY ",
+      data: [
+        {
+          item: "Cambio retiro de motor",
+          description: ["Formulario Nº 003 RNBU CERTIFICADO  por escribano público y COLEGIO",
+            "Factura original de compra del motor con sello y firma de la entidad vendedora (en caso de instalación – cambio de motor).",
+            "Fotocopia DNI ",
+            "Constancia de CUIL o CUIT",
+            "Fotocopia de un servicio "
+          ],
+          link: "https://drive.google.com/file/d/10LbVQ1IGzIp4aoFmHIX1otuwpUERqGs8/view?usp=drive_link",
         },
       ],
     },
@@ -86,7 +101,7 @@ const Home = () => {
             "Fotocopia DNI ",
             "Constancia de CUIL o CUIT"
           ],
-          link: "https://erecauda.prefecturanaval.gob.ar/erecauda/bb_form.php",
+          link: "https://drive.google.com/file/d/1b9rvXOFI-kdj1Gkkublk4uVE-2QnWiwy/view?usp=drive_link",
         },
       ],
     },
@@ -120,7 +135,7 @@ const Home = () => {
             "Constancia de Cuil ",
             "Traer la embarcación a la dependencia para inspección.- (DEBERÁ TENER NOMBRE Y CURU E/T AMBOS LADOS) (12 CM DE ALTO COMO MÍNIMO)"
           ],
-          link: "https://erecauda.prefecturanaval.gob.ar/erecauda/bb_form.php",
+          link: "https://drive.google.com/file/d/1eKkgFO0imPg5d4oQKAP3ubZr85yFsNmm/view?usp=drive_link",
         },
       ],
     },
@@ -138,7 +153,7 @@ const Home = () => {
             "Formulario 381 (Nuevo Modelo) “Certificado de Bienes Registrales",
             "Traer la embarcación a la dependencia para (DEBERÁ TENER NOMBRE Y N° DE MATRICULA AMBOS LADOS) (12 CM DE ALTO COMO MÍNIMO) "
           ],
-          link: "https://erecauda.prefecturanaval.gob.ar/erecauda/bb_form.php",
+          link: "https://drive.google.com/file/d/1yjuNRto8k8rPFHW5HCIJy6yz2XBR1uU5/view?usp=drive_link",
         },
       ],
     },
@@ -154,7 +169,7 @@ const Home = () => {
             "Copia de un servicio ",
             "Traer la embarcación a la dependencia para inspección.- (deberá tener nombre y N° de Matricula ambos lados) (12 cm de alto como mínimo) "
           ],
-          link: "https://erecauda.prefecturanaval.gob.ar/erecauda/bb_form.php",
+          link: "https://drive.google.com/file/d/1cSIqQhGr1DTp4oW4RhyMUqu0-M9Mrh0X/view?usp=drive_link",
         },
       ],
     },

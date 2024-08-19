@@ -6,6 +6,7 @@ import { db } from "../../firebase";
 import "./AdminDashboard.css";
 import DetalleTurno from "../DetalleTurno/DetalleTurno";
 
+
 const AdminDashboard = () => {
   const [turnos, setTurnos] = useState([]);
   const [filteredTurnos, setFilteredTurnos] = useState([]);
@@ -34,6 +35,37 @@ const AdminDashboard = () => {
     console.error("Formato de fecha no reconocido:", dateValue);
     return new Date();
   };
+
+  // const obtenerYGuardarFeriados = async () => {
+  //   try {
+  //     const response = await axios.get(`https://api.argentinadatos.com/v1/feriados`);
+  //     const feriados = response.data;
+     
+
+  //     for (let feriado of feriados) {
+  //       const fecha = `${feriado.anio}-${feriado.mes.toString().padStart(2, '0')}-${feriado.dia.toString().padStart(2, '0')}`;
+  //       const fechaInvalidaRef = doc(collection(db, "fechasInvalidas"));
+        
+  //       const q = query(collection(db, "fechasInvalidas"), where("fecha", "==", fecha));
+  //       const querySnapshot = await getDocs(q);
+
+  //       if (querySnapshot.empty) {
+  //         await setDoc(fechaInvalidaRef, {
+  //           fecha: fecha,
+  //           razon: feriado.motivo,
+  //         });
+          
+  //         setFechasInvalidas(prevFechas => [
+  //           ...prevFechas,
+  //           { fecha: ensureDate(fecha), razon: feriado.motivo }
+  //         ]);
+  //       }
+  //     }
+  //     console.log('Feriados obtenidos y guardados con éxito.');
+  //   } catch (error) {
+  //     console.error('Error al obtener o guardar los feriados:', error);
+  //   }
+  // };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -66,6 +98,8 @@ const AdminDashboard = () => {
           razon: doc.data().razon,
         }));
         setFechasInvalidas(fechasInvalidasData);
+        
+        // await obtenerYGuardarFeriados();
         
       } catch (error) {
         console.error("Error al obtener los datos:", error);
@@ -120,6 +154,7 @@ const AdminDashboard = () => {
     });
   };
 
+  // eslint-disable-next-line no-unused-vars
   const handleCompleteToggle = async (turnoId, newStatus) => {
     try {
       await updateDoc(doc(db, "turnos", turnoId), {
@@ -151,10 +186,17 @@ const AdminDashboard = () => {
       }
     );
 
-    return (
-      <div className="custom-day-contents">
+    let className = "custom-day-contents";
+    if (turnosCount >= 6) {
+      className += " day-full";
+    } else if (turnosCount === 5) {
+      className += " day-five-turnos";
+    }
+
+
+   return (
+      <div className={className}>
         {day}
-        {turnosCount >= 6 && <span className="day-cross">&#10060;</span>}
         {esFechaInvalida && <span className="day-invalid">&#128683;</span>}
       </div>
     );
@@ -269,30 +311,36 @@ const AdminDashboard = () => {
 
         {showTable ? (
           <div className="table-container">
-            <table className="turnos-table">
-              <thead>
-                <tr>
-                  <th>Nombre y Apellido</th>
-                  <th>Fecha</th>
-                  <th>Hora</th>
-                  <th>Celular</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredTurnos.map((turno) => (
-                  <tr key={turno.id} className={turno.completado === "entramite" ? "entramite" : ""}>
-                    <td>{turno.nombreApellido}</td>
-                    <td>{formatDate(turno.fecha)}</td>
-                    <td>{turno.hora}</td>
-                    <td>{turno.telefono}</td>
-                    <td>
-                      <button onClick={() => handleVerDetalle(turno)}>Ver</button>
-                    </td>
+            {filteredTurnos.length > 0 ? (
+              <table className="turnos-table">
+                <thead>
+                  <tr>
+                    <th>Nombre y Apellido</th>
+                    <th>Fecha</th>
+                    <th>Hora</th>
+                    <th>Celular</th>
+                    <th>Acciones</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {filteredTurnos.map((turno) => (
+                    <tr key={turno.id} className={turno.completado === "entramite" ? "entramite" : ""}>
+                      <td>{turno.nombreApellido}</td>
+                      <td>{formatDate(turno.fecha)}</td>
+                      <td>{turno.hora}</td>
+                      <td>{turno.telefono}</td>
+                      <td>
+                        <button onClick={() => handleVerDetalle(turno)}>Ver</button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <div className="no-turnos-message">
+                No hay turnos para mostrar en esta fecha.
+              </div>
+            )}
           </div>
         ) : (
           detalleTurno && (

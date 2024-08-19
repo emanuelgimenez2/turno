@@ -118,6 +118,22 @@
   margin-top: 0.5rem;
   transition: background-color 0.3s;
 }
+.day-five-turnos {
+  background-color: #90EE90; /* Verde claro */
+}
+
+.day-full {
+  background-color: #FF6347; /* Rojo claro */
+}
+.no-turnos-message {
+  text-align: center;
+  padding: 20px;
+  font-size: 18px;
+  color: #666;
+  background-color: #f8f8f8;
+  border-radius: 5px;
+  margin-top: 20px;
+}
 
 .invalidar-button:hover {
   background-color: #c0392b;
