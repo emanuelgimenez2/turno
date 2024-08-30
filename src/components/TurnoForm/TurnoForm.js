@@ -18,7 +18,7 @@ const CATEGORIES = [
   "Carnet Nautico",
 ];
 
-const AVAILABLE_HOURS = ["07:00", "08:00", "09:00", "10:00", "11:00", "12:00"];
+const AVAILABLE_HOURS = [ "08:00", "09:00", "10:00", "11:00", "12:00"];
 
 const TurnoForm = () => {
   const {

@@ -187,9 +187,9 @@ const AdminDashboard = () => {
     );
 
     let className = "custom-day-contents";
-    if (turnosCount >= 6) {
+    if (turnosCount >= 5) {
       className += " day-full";
-    } else if (turnosCount === 5) {
+    } else if (turnosCount === 4) {
       className += " day-five-turnos";
     }
 
