@@ -28,7 +28,7 @@ const TurnoForm = () => {
     reset,
   } = useForm();
   const navigate = useNavigate();
-  const [date, setDate] = useState(null);
+  const [date, setDate] = useState(new Date()); // Inicializar con la fecha actual
   const [bookedHours, setBookedHours] = useState([]);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [fullDates, setFullDates] = useState([]);
@@ -104,7 +104,7 @@ const TurnoForm = () => {
 
       setShowSuccessMessage(true);
       reset();
-      setDate(null);
+      setDate(new Date()); // Establecer la fecha actual después de enviar
 
       setTimeout(() => {
         navigate("/");
