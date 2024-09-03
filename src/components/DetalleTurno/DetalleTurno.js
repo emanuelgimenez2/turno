@@ -31,6 +31,7 @@ const DetalleTurno = ({ turno, onClose }) => {
         <p><strong>Descripción:</strong> {turno.descripcion}</p>
         <p><strong>Fecha:</strong> {formatDate(turno.fecha)}</p>
         <p><strong>Hora:</strong> {turno.hora}</p>
+        <p><strong>email:</strong> {turno.email}</p>
         <p><strong>Categoría:</strong> {turno.categoria}</p>
         <p><strong>Celular:</strong> {turno.telefono}</p>
         <p><strong>Completado:</strong> {turno.completado ? "Sí" : "No"}</p>

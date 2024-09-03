@@ -317,6 +317,7 @@ const AdminDashboard = () => {
                   <tr>
                     <th>Nombre y Apellido</th>
                     <th>Fecha</th>
+                    <th>Categoria</th>
                     <th>Hora</th>
                     <th>Celular</th>
                     <th>Acciones</th>
@@ -327,6 +328,7 @@ const AdminDashboard = () => {
                     <tr key={turno.id} className={turno.completado === "entramite" ? "entramite" : ""}>
                       <td>{turno.nombreApellido}</td>
                       <td>{formatDate(turno.fecha)}</td>
+                      <td>{turno.categoria}</td>
                       <td>{turno.hora}</td>
                       <td>{turno.telefono}</td>
                       <td>

@@ -18,7 +18,7 @@ const CATEGORIES = [
   "Carnet Nautico",
 ];
 
-const AVAILABLE_HOURS = [ "08:00", "09:00", "10:00", "11:00", "12:00"];
+const AVAILABLE_HOURS = ["08:00", "09:00", "10:00", "11:00", "12:00"];
 
 const TurnoForm = () => {
   const {
@@ -28,7 +28,7 @@ const TurnoForm = () => {
     reset,
   } = useForm();
   const navigate = useNavigate();
-  const [date, setDate] = useState(new Date()); // Inicializar con la fecha actual
+  const [date, setDate] = useState(new Date());
   const [bookedHours, setBookedHours] = useState([]);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [fullDates, setFullDates] = useState([]);
@@ -46,7 +46,7 @@ const TurnoForm = () => {
     });
 
     const fullDatesArray = Object.entries(turnosByDate)
-      .filter(([, count]) => count >= 5)
+      .filter(([, count]) => count >= 4)
       .map(([date]) => new Date(date));
 
     setFullDates(fullDatesArray);
@@ -57,13 +57,10 @@ const TurnoForm = () => {
       const q = query(collection(db, "fechasInvalidas"));
       const querySnapshot = await getDocs(q);
       
-
       const invalidDatesArray = querySnapshot.docs.map((doc) => {
         const { fecha } = doc.data();
-      
         return new Date(fecha);
       });
-
       
       setInvalidDates(invalidDatesArray);
     } catch (error) {
@@ -96,7 +93,7 @@ const TurnoForm = () => {
       return;
     }
     try {
-      await addDoc(collection(db, "turnos"), {
+      const docRef = await addDoc(collection(db, "turnos"), {
         ...data,
         fecha: date.toISOString().split("T")[0],
         completado: false,
@@ -104,10 +101,10 @@ const TurnoForm = () => {
 
       setShowSuccessMessage(true);
       reset();
-      setDate(new Date()); // Establecer la fecha actual después de enviar
+      setDate(new Date());
 
       setTimeout(() => {
-        navigate("/");
+        navigate(`/confirmacion/${docRef.id}`);
       }, 3000);
     } catch (error) {
       console.error("Error al guardar el turno:", error);
@@ -168,6 +165,20 @@ const TurnoForm = () => {
               "El nombre no puede contener números ni caracteres especiales",
           }}
           error={errors.nombreApellido}
+        />
+
+        <InputField
+          id="email"
+          label="Correo electrónico:"
+          type="email"
+          placeholder="ejemplo@correo.com"
+          register={register}
+          required="Este campo es requerido"
+          pattern={{
+            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+            message: "Dirección de correo electrónico inválida",
+          }}
+          error={errors.email}
         />
 
         <InputField
@@ -248,7 +259,7 @@ const TurnoForm = () => {
       {showSuccessMessage && (
         <Message
           title="¡Turno generado con éxito!"
-          message="El turno ha sido registrado correctamente."
+          message="El turno ha sido registrado correctamente. Serás redirigido a la página de confirmación."
           type="success"
           onClose={() => setShowSuccessMessage(false)}
         />

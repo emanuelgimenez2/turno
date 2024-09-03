@@ -1,0 +1,97 @@
+.confirmacion-turno {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #ffffff, #f2f2f2);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .confirmacion-turno:hover {
+    transform: scale(1.02);
+  }
+  
+  .confirmacion-turno h2 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  .turno-details {
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+    color: #666;
+  }
+  
+  .turno-details p {
+    margin: 0.75rem 0;
+    line-height: 1.8;
+  }
+  
+  .turno-details strong {
+    color: #444;
+  }
+  
+  .print-button {
+    display: block;
+    width: 100%;
+    padding: 0.75rem;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .print-button:hover {
+    background-color: #218838;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  .loading,
+  .error {
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 1.2rem;
+    color: #666;
+  }
+  
+  .error {
+    color: #dc3545;
+  }
+  
+  /* Estilos específicos para impresión */
+  @media print {
+    body * {
+      visibility: hidden;
+    }
+    .confirmacion-turno, .confirmacion-turno * {
+      visibility: visible;
+    }
+    .confirmacion-turno {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      padding: 0;
+      margin: 0;
+      border: none;
+      box-shadow: none;
+    }
+    .print-button {
+      display: none;
+    }
+  }
+  
