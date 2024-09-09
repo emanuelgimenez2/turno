@@ -8,9 +8,7 @@ const sendConfirmationEmail = (email, nombre, fecha, hora) => {
     appointment_time: hora,
   };
 
-  console.log("Service ID:", process.env.REACT_APP_YOUR_SERVICE_ID);
-  console.log("Template ID:", process.env.REACT_APP_YOUR_TEMPLATE_ID);
-  console.log("User ID:", process.env.REACT_APP_YOUR_USER_ID);
+ 
 
   return emailjs.send(
     process.env.REACT_APP_YOUR_SERVICE_ID,

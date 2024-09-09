@@ -5,6 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { db } from "../../firebase";
 import "./AdminDashboard.css";
 import DetalleTurno from "../DetalleTurno/DetalleTurno";
+import ConfirmModal from "../ConfirmModal/ConfirmModal";
 
 const AdminDashboard = () => {
   const [turnos, setTurnos] = useState([]);
@@ -18,6 +19,8 @@ const AdminDashboard = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [detalleTurno, setDetalleTurno] = useState(null);
   const [showTable, setShowTable] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [turnoToDelete, setTurnoToDelete] = useState(null);
 
   const ensureDate = (dateValue) => {
     if (dateValue instanceof Date) {
@@ -196,23 +199,28 @@ const AdminDashboard = () => {
     setShowTable(true);
   };
 
-  const handleEliminarTurno = async (turnoId) => {
-    if (window.confirm("¿Estás seguro de que quieres eliminar este turno?")) {
+  const handleEliminarTurno = (turno) => {
+    setTurnoToDelete(turno);
+    setModalOpen(true);
+  };
+
+  const confirmEliminarTurno = async () => {
+    if (turnoToDelete) {
       try {
-        await deleteDoc(doc(db, "turnos", turnoId));
-        const updatedTurnos = turnos.filter(turno => turno.id !== turnoId);
+        await deleteDoc(doc(db, "turnos", turnoToDelete.id));
+        const updatedTurnos = turnos.filter(turno => turno.id !== turnoToDelete.id);
         setTurnos(updatedTurnos);
-        setFilteredTurnos(filteredTurnos.filter(turno => turno.id !== turnoId));
+        setFilteredTurnos(filteredTurnos.filter(turno => turno.id !== turnoToDelete.id));
         
         // Actualizar turnosPorDia
-        const turnoEliminado = turnos.find(turno => turno.id === turnoId);
-        if (turnoEliminado) {
-          const fechaKey = turnoEliminado.fecha.toDateString();
-          setTurnosPorDia(prevTurnosPorDia => ({
-            ...prevTurnosPorDia,
-            [fechaKey]: (prevTurnosPorDia[fechaKey] || 1) - 1
-          }));
-        }
+        const fechaKey = turnoToDelete.fecha.toDateString();
+        setTurnosPorDia(prevTurnosPorDia => ({
+          ...prevTurnosPorDia,
+          [fechaKey]: (prevTurnosPorDia[fechaKey] || 1) - 1
+        }));
+
+        setModalOpen(false);
+        setTurnoToDelete(null);
       } catch (error) {
         console.error("Error al eliminar el turno:", error);
       }
@@ -319,7 +327,7 @@ const AdminDashboard = () => {
                       <td>{turno.telefono}</td>
                       <td>
                         <button onClick={() => handleVerDetalle(turno)}>Ver</button>
-                        <button onClick={() => handleEliminarTurno(turno.id)} className="eliminar-button">Eliminar</button>
+                        <button onClick={() => handleEliminarTurno(turno)} className="eliminar-button">Eliminar</button>
                       </td>
                     </tr>
                   ))}
@@ -339,6 +347,13 @@ const AdminDashboard = () => {
           )
         )}
       </div>
+
+      <ConfirmModal 
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        onConfirm={confirmEliminarTurno}
+        turno={turnoToDelete}
+      />
     </div>
   );
 };
