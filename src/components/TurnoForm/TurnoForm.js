@@ -31,7 +31,7 @@ const TurnoForm = () => {
   const [date, setDate] = useState(new Date());
   const [bookedHours, setBookedHours] = useState([]);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
-  const [fullDates, setFullDates] = useState([]);
+  const [fullDates, setFullDates] = useState({});
   const [invalidDates, setInvalidDates] = useState([]);
   const [message, setMessage] = useState("");
 
@@ -41,15 +41,14 @@ const TurnoForm = () => {
     const turnosByDate = {};
 
     querySnapshot.forEach((doc) => {
-      const { fecha } = doc.data();
-      turnosByDate[fecha] = (turnosByDate[fecha] || 0) + 1;
+      const { fecha, hora } = doc.data();
+      if (!turnosByDate[fecha]) {
+        turnosByDate[fecha] = new Set();
+      }
+      turnosByDate[fecha].add(hora);
     });
 
-    const fullDatesArray = Object.entries(turnosByDate)
-      .filter(([, count]) => count >= 4)
-      .map(([date]) => new Date(date));
-
-    setFullDates(fullDatesArray);
+    setFullDates(turnosByDate);
   }, []);
 
   const fetchInvalidDates = useCallback(async () => {
@@ -77,11 +76,8 @@ const TurnoForm = () => {
   const fetchBookedHours = useCallback(async (selectedDate) => {
     if (!selectedDate) return;
     const dateString = selectedDate.toISOString().split("T")[0];
-    const q = query(collection(db, "turnos"), where("fecha", "==", dateString));
-    const querySnapshot = await getDocs(q);
-    const booked = querySnapshot.docs.map((doc) => doc.data().hora);
-    setBookedHours(booked);
-  }, []);
+    setBookedHours(fullDates[dateString] ? Array.from(fullDates[dateString]) : []);
+  }, [fullDates]);
 
   useEffect(() => {
     fetchBookedHours(date);
@@ -103,6 +99,9 @@ const TurnoForm = () => {
       reset();
       setDate(new Date());
 
+      // Actualizar fullDates después de agregar un nuevo turno
+      await fetchFullDates();
+
       setTimeout(() => {
         navigate(`/confirmacion/${docRef.id}`);
       }, 3000);
@@ -122,9 +121,7 @@ const TurnoForm = () => {
   const isDateDisabled = (date) => {
     const selectedDateISO = date.toISOString().split("T")[0];
 
-    const isFullDate = fullDates.some(
-      (fullDate) => fullDate.toISOString().split("T")[0] === selectedDateISO
-    );
+    const isFullDate = fullDates[selectedDateISO] && fullDates[selectedDateISO].size >= AVAILABLE_HOURS.length;
 
     const isInvalidDate = invalidDates.some(
       (invalidDate) => invalidDate.toISOString().split("T")[0] === selectedDateISO
