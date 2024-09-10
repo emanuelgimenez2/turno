@@ -8,7 +8,7 @@ import "./TurnoForm.css";
 import Message from "../Message/Message";
 import { db } from "../../firebase";
 import { collection, addDoc, query, getDocs, where } from "firebase/firestore";
-import sendConfirmationEmail from '../EmailService/EmailService';
+import sendConfirmationEmail from "../EmailService/EmailService";
 
 registerLocale("es", es);
 
@@ -27,14 +27,16 @@ const TurnoForm = () => {
     handleSubmit,
     formState: { errors },
     reset,
+    setValue,
   } = useForm();
   const navigate = useNavigate();
   const [date, setDate] = useState(new Date());
-  const [bookedHours, setBookedHours] = useState([]);
+  const [availableHours, setAvailableHours] = useState([]);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [fullDates, setFullDates] = useState([]);
   const [invalidDates, setInvalidDates] = useState([]);
   const [message, setMessage] = useState("");
+  const [noAvailableHoursMessage, setNoAvailableHoursMessage] = useState("");
 
   const fetchFullDates = useCallback(async () => {
     const q = query(collection(db, "turnos"));
@@ -48,7 +50,7 @@ const TurnoForm = () => {
 
     const fullDatesArray = Object.entries(turnosByDate)
       .filter(([, count]) => count >= AVAILABLE_HOURS.length)
-      .map(([date]) => new Date(date + "T00:00:00")); // Añade la hora para asegurar la zona horaria correcta
+      .map(([date]) => new Date(date + "T00:00:00"));
 
     setFullDates(fullDatesArray);
   }, []);
@@ -57,16 +59,18 @@ const TurnoForm = () => {
     try {
       const q = query(collection(db, "fechasInvalidas"));
       const querySnapshot = await getDocs(q);
-      
+
       const invalidDatesArray = querySnapshot.docs.map((doc) => {
         const { fecha } = doc.data();
-        return new Date(fecha + "T00:00:00"); // Añade la hora para asegurar la zona horaria correcta
+        return new Date(fecha + "T00:00:00");
       });
-      
+
       setInvalidDates(invalidDatesArray);
     } catch (error) {
       console.error("Error al obtener fechas inválidas:", error);
-      setMessage("Error al cargar fechas inválidas. Por favor, recarga la página.");
+      setMessage(
+        "Error al cargar fechas inválidas. Por favor, recarga la página."
+      );
     }
   }, []);
 
@@ -75,18 +79,45 @@ const TurnoForm = () => {
     fetchInvalidDates();
   }, [fetchFullDates, fetchInvalidDates]);
 
-  const fetchBookedHours = useCallback(async (selectedDate) => {
-    if (!selectedDate) return;
-    const dateString = selectedDate.toISOString().split("T")[0];
-    const q = query(collection(db, "turnos"), where("fecha", "==", dateString));
-    const querySnapshot = await getDocs(q);
-    const booked = querySnapshot.docs.map((doc) => doc.data().hora);
-    setBookedHours(booked);
-  }, []);
+  const fetchAvailableHours = useCallback(
+    async (selectedDate) => {
+      if (!selectedDate) return;
+      const dateString = selectedDate.toISOString().split("T")[0];
+      const q = query(
+        collection(db, "turnos"),
+        where("fecha", "==", dateString)
+      );
+      const querySnapshot = await getDocs(q);
+      const bookedHours = querySnapshot.docs.map((doc) => doc.data().hora);
+      const available = AVAILABLE_HOURS.filter(
+        (hour) => !bookedHours.includes(hour)
+      );
+
+      setAvailableHours(available);
+      setValue("hora", "");
+
+      if (available.length === 0) {
+        setNoAvailableHoursMessage("No hay horas disponibles para esta fecha.");
+      } else {
+        setNoAvailableHoursMessage("");
+      }
+    },
+    [setValue]
+  );
 
   useEffect(() => {
-    fetchBookedHours(date);
-  }, [date, fetchBookedHours]);
+    fetchAvailableHours(date);
+  }, [date, fetchAvailableHours]);
+
+  const isTurnoDisponible = async (fecha, hora) => {
+    const q = query(
+      collection(db, "turnos"),
+      where("fecha", "==", fecha),
+      where("hora", "==", hora)
+    );
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.empty;
+  };
 
   const onSubmit = async (data) => {
     if (!date) {
@@ -94,28 +125,40 @@ const TurnoForm = () => {
       return;
     }
     try {
-      // Crear una nueva fecha con la hora establecida a medianoche en la zona horaria local
-      const localDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-      
-      // Convertir la fecha local a una cadena ISO 8601 en UTC
+      const localDate = new Date(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate()
+      );
       const isoDate = localDate.toISOString();
+      const dateString = isoDate.split("T")[0];
+
+      // Verificar si el turno está disponible
+      if (!(await isTurnoDisponible(dateString, data.hora))) {
+        setMessage(
+          "Lo siento, ese horario ya está ocupado. Por favor, elija otro."
+        );
+        return;
+      }
 
       const docRef = await addDoc(collection(db, "turnos"), {
         ...data,
-        fecha: isoDate.split('T')[0], // Guardar solo la parte de la fecha
+        fecha: dateString,
         completado: false,
       });
 
-      // Enviar correo de confirmación
-      await sendConfirmationEmail(data.email, data.nombreApellido, localDate, data.hora);
+      await sendConfirmationEmail(
+        data.email,
+        data.nombreApellido,
+        localDate,
+        data.hora
+      );
 
       setShowSuccessMessage(true);
       reset();
       setDate(new Date());
 
-      // Actualizar la lista de horas reservadas
-      await fetchBookedHours(localDate);
-      // Actualizar la lista de fechas completas
+      await fetchAvailableHours(localDate);
       await fetchFullDates();
 
       setTimeout(() => {
@@ -123,7 +166,9 @@ const TurnoForm = () => {
       }, 3000);
     } catch (error) {
       console.error("Error al guardar el turno:", error);
-      setMessage("Hubo un error al guardar el turno. Por favor, inténtelo nuevamente.");
+      setMessage(
+        "Hubo un error al guardar el turno. Por favor, inténtelo nuevamente."
+      );
     }
   };
 
@@ -140,7 +185,8 @@ const TurnoForm = () => {
     );
 
     const isInvalidDate = invalidDates.some(
-      (invalidDate) => invalidDate.toISOString().split("T")[0] === selectedDateISO
+      (invalidDate) =>
+        invalidDate.toISOString().split("T")[0] === selectedDateISO
     );
 
     return isFullDate || isInvalidDate || isWeekend(date);
@@ -174,7 +220,8 @@ const TurnoForm = () => {
           required="Este campo es requerido"
           pattern={{
             value: /^[a-zA-Z\s]*$/,
-            message: "El nombre no puede contener números ni caracteres especiales",
+            message:
+              "El nombre no puede contener números ni caracteres especiales",
           }}
           error={errors.nombreApellido}
         />
@@ -229,16 +276,26 @@ const TurnoForm = () => {
           )}
         </div>
 
-        <SelectField
-          id="hora"
-          label="Hora:"
-          register={register}
-          options={AVAILABLE_HOURS.filter(
-            (hour) => !bookedHours.includes(hour)
+        <div className="form-group">
+          <label htmlFor="hora" className="label">
+            
+          </label>
+          {availableHours.length > 0 ? (
+            <SelectField
+              id="hora"
+              label="Hora"
+              register={register}
+              options={availableHours}
+              placeholder="Seleccione una hora"
+              required="Este campo es requerido"
+            />
+          ) : (
+            <p>
+              {noAvailableHoursMessage ||
+                "Seleccione una fecha para ver las horas disponibles."}
+            </p>
           )}
-          placeholder="Seleccione una hora"
-          required="Este campo es requerido"
-        />
+        </div>
 
         <SelectField
           id="categoria"

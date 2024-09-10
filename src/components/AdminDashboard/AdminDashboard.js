@@ -319,6 +319,7 @@ const AdminDashboard = () => {
                 </thead>
                 <tbody>
                   {filteredTurnos.map((turno) => (
+                 
                     <tr key={turno.id} className={turno.completado === "entramite" ? "entramite" : ""}>
                       <td>{turno.nombreApellido}</td>
                       <td>{formatDate(turno.fecha)}</td>

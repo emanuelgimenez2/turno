@@ -2,13 +2,12 @@ import emailjs from 'emailjs-com';
 
 const sendConfirmationEmail = (email, nombre, fecha, hora) => {
   const templateParams = {
+    to_email: email, // Aquí defines el destinatario del correo electrónico
     to_name: nombre,
-    to_email: email,
+    from_name: 'Oficina Polinave de la Prefectura Concepción del Uruguay', // Nombre del remitente
     appointment_date: fecha.toLocaleDateString("es-ES"),
     appointment_time: hora,
   };
-
- 
 
   return emailjs.send(
     process.env.REACT_APP_YOUR_SERVICE_ID,
