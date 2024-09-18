@@ -1,0 +1,36 @@
+/* src/components/Loader.css */
+
+/* Contenedor principal del loader */
+.loader-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh; /* Ocupa toda la altura de la ventana */
+    background-color: #f3f4f6; /* Color de fondo suave */
+  }
+  
+  /* Estilos para el círculo giratorio */
+  .loader {
+    border: 8px solid #f3f3f3; /* Borde gris claro */
+    border-top: 8px solid #3498db; /* Borde superior azul */
+    border-radius: 50%; /* Forma circular */
+    width: 60px; /* Ancho del loader */
+    height: 60px; /* Alto del loader */
+    animation: spin 2s linear infinite; /* Animación de giro */
+  }
+  
+  /* Animación de giro */
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  /* Estilos para el texto de carga */
+  .loader-text {
+    margin-top: 20px; /* Espacio entre el loader y el texto */
+    font-size: 1.2rem; /* Tamaño de fuente */
+    color: #555555; /* Color del texto */
+    font-family: Arial, sans-serif; /* Fuente del texto */
+  }
+  

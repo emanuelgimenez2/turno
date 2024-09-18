@@ -28,6 +28,8 @@ const TurnoForm = () => {
     formState: { errors },
     reset,
     setValue,
+    // eslint-disable-next-line no-unused-vars
+    watch,
   } = useForm();
   const navigate = useNavigate();
   const [date, setDate] = useState(new Date());
@@ -124,6 +126,10 @@ const TurnoForm = () => {
       setMessage("Por favor, seleccione una fecha.");
       return;
     }
+    if (!data.hora) {
+      setMessage("Por favor, seleccione una hora.");
+      return;
+    }
     try {
       const localDate = new Date(
         date.getFullYear(),
@@ -133,7 +139,6 @@ const TurnoForm = () => {
       const isoDate = localDate.toISOString();
       const dateString = isoDate.split("T")[0];
 
-      // Verificar si el turno está disponible
       if (!(await isTurnoDisponible(dateString, data.hora))) {
         setMessage(
           "Lo siento, ese horario ya está ocupado. Por favor, elija otro."
@@ -278,22 +283,34 @@ const TurnoForm = () => {
 
         <div className="form-group">
           <label htmlFor="hora" className="label">
-            
+            Hora:
           </label>
           {availableHours.length > 0 ? (
-            <SelectField
+            <select
               id="hora"
-              label="Hora"
-              register={register}
-              options={availableHours}
-              placeholder="Seleccione una hora"
-              required="Este campo es requerido"
-            />
+              {...register("hora", { required: "Este campo es requerido" })}
+              className="select"
+            >
+              <option value="">Seleccione una hora</option>
+              {availableHours.map((hour) => (
+                <option key={hour} value={hour}>
+                  {hour}
+                </option>
+              ))}
+            </select>
           ) : (
             <p>
               {noAvailableHoursMessage ||
                 "Seleccione una fecha para ver las horas disponibles."}
             </p>
+          )}
+          {errors.hora && (
+            <Message
+              title="Error en Hora"
+              message={errors.hora.message}
+              type="error"
+              onClose={() => {}}
+            />
           )}
         </div>
 

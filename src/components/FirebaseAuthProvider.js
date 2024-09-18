@@ -1,7 +1,10 @@
+// FirebaseAuthProvider.jsx
+
 import React, { createContext, useState, useEffect } from 'react';
 import { onAuthStateChanged, getIdTokenResult } from 'firebase/auth';
 import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
-import "./FirebaseAuthProvider.css"
+import "./FirebaseAuthProvider.css";
+import Loader from './Loader/Loader';
 
 export const AuthContext = createContext();
 
@@ -46,10 +49,9 @@ export const FirebaseAuthProvider = ({ children, auth }) => {
 
   if (loading) {
     return (
-      <div className="loading-container">
-        <div className="loading-spinner"></div>
-        <div className="loading-text">Cargando...</div>
-      </div>
+     
+      <Loader />
+     
     );
   }
 

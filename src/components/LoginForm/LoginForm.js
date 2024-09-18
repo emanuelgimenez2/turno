@@ -21,8 +21,9 @@ const LoginForm = () => {
           localStorage.setItem("accessToken", token);
           // Los roles deben ser manejados de manera diferente en Firebase
           // Por ejemplo, podrías usar custom claims
+          // eslint-disable-next-line no-unused-vars
           const roles = idTokenResult.claims.roles;
-          console.log('Roles:', roles);
+        
         }
       } catch (error) {
         console.error("Error al obtener el token:", error.message);
