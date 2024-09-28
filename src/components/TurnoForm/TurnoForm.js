@@ -28,11 +28,10 @@ const TurnoForm = () => {
     formState: { errors },
     reset,
     setValue,
-    // eslint-disable-next-line no-unused-vars
     watch,
   } = useForm();
   const navigate = useNavigate();
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(null);
   const [availableHours, setAvailableHours] = useState([]);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [fullDates, setFullDates] = useState([]);
@@ -76,11 +75,6 @@ const TurnoForm = () => {
     }
   }, []);
 
-  useEffect(() => {
-    fetchFullDates();
-    fetchInvalidDates();
-  }, [fetchFullDates, fetchInvalidDates]);
-
   const fetchAvailableHours = useCallback(
     async (selectedDate) => {
       if (!selectedDate) return;
@@ -107,9 +101,33 @@ const TurnoForm = () => {
     [setValue]
   );
 
+  const findFirstAvailableDate = useCallback(() => {
+    let currentDate = new Date();
+    while (true) {
+      if (!isDateDisabled(currentDate)) {
+        return currentDate;
+      }
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+  }, [fullDates, invalidDates]);
+
   useEffect(() => {
-    fetchAvailableHours(date);
+    fetchFullDates();
+    fetchInvalidDates();
+  }, [fetchFullDates, fetchInvalidDates]);
+
+  useEffect(() => {
+    if (date) {
+      fetchAvailableHours(date);
+    }
   }, [date, fetchAvailableHours]);
+
+  useEffect(() => {
+    if (!date && fullDates.length > 0 && invalidDates.length > 0) {
+      const firstAvailableDate = findFirstAvailableDate();
+      setDate(firstAvailableDate);
+    }
+  }, [date, fullDates, invalidDates, findFirstAvailableDate]);
 
   const isTurnoDisponible = async (fecha, hora) => {
     const q = query(
@@ -269,6 +287,7 @@ const TurnoForm = () => {
               locale="es"
               dateFormat="dd/MM/yyyy"
               calendarIcon={renderCalendarIcon()}
+              openToDate={date || new Date()}
             />
           </div>
           {message && (
@@ -338,7 +357,7 @@ const TurnoForm = () => {
         />
 
         <button type="submit" className="button">
-          Guardar cambios
+          Crear Turno
         </button>
       </form>
 
