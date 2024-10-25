@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { collection, getDocs, updateDoc, doc, setDoc, deleteDoc } from "firebase/firestore";
 import DatePicker from "react-datepicker";
+import { X, Calendar } from "lucide-react";
 import "react-datepicker/dist/react-datepicker.css";
 import { db } from "../../firebase";
 import "./AdminDashboard.css";
@@ -226,6 +227,9 @@ const AdminDashboard = () => {
       }
     }
   };
+  const renderCalendarIcon = () => (
+    <Calendar size={18} color="#2c3e50" className="calendar-icon" />
+  );
   
   return (
     <div className="admin-dashboard">
@@ -285,8 +289,15 @@ const AdminDashboard = () => {
               placeholderText="Selecciona una fecha para invalidar"
               className="date-picker"
               locale="es"
+              calendarIcon={renderCalendarIcon()}
               minDate={new Date()}
             />
+
+
+
+
+
+
             <input
               type="text"
               value={razonInvalidacion}

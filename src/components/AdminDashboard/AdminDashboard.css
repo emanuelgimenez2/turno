@@ -21,6 +21,29 @@
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
+.filter-card 
+.date-picker
+
+{
+  padding: 0.8rem;
+  border: 2px solid #4a90e2;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  background-color: #ffffff;
+  width: 100%;
+  box-sizing: border-box;
+}
+.invalidar-input{
+  padding: 0.8rem;
+  border: 2px solid #4a90e2;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  background-color: #ffffff;
+  width: 100%;
+  box-sizing: border-box;
+}
 
 .navbar-container {
   max-width: 1200px;
@@ -93,19 +116,16 @@
 }
 
 .date-picker {
+  padding: 0.8rem;
+  border: 2px solid #4a90e2;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  background-color: #ffffff;
   width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  box-sizing: border-box;
 }
 
-.invalidar-input {
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  margin-top: 0.5rem;
-}
 
 .invalidar-button {
   width: 100%;
