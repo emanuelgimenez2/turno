@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import LoginForm from '../LoginForm/LoginForm';
-import { AuthContext } from '../FirebaseAuthProvider'; // Asegúrate de que la ruta sea correcta
+import { AuthContext } from '../FirebaseAuthProvider';
 import logo from '../../assets/logo.png';
 import './Navbar.css';
 
@@ -38,6 +38,16 @@ const Navbar = () => {
               Agendar Turno
             </Link>
           </li>
+          
+          {/* Mostrar "Mis Turnos" solo si el usuario está autenticado */}
+          {user && (
+            <li className="nav-item">
+              <Link to="/mis-turnos" className="nav-link" onClick={() => setIsOpen(false)}>
+                Mis Turnos
+              </Link>
+            </li>
+          )}
+          
           {/* Mostrar el enlace de administrador solo si el usuario es admin */}
           {user && isAdmin && (
             <li className="nav-item">

@@ -8,6 +8,7 @@ import AdminDashboard from './components/AdminDashboard/AdminDashboard';
 import './App.css'; 
 import Footer from './components/Footer/Footer';
 import ConfirmacionTurno from './components/ConfirmacionTurno/ConfirmacionTurno';
+import MisTurnos from './components/MisTurnos/MisTurnos';
 
 function App() {
 
@@ -20,6 +21,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<LoginForm />} />
             <Route path="/turno" element={<TurnoForm />} />
+            <Route path="/mis-turnos" element={<MisTurnos />} />
             <Route path="/confirmacion/:id" element={<ConfirmacionTurno />} />
             <Route path="/admin" element={<AdminDashboard />} />
           </Routes>
