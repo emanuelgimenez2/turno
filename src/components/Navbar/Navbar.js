@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import LoginForm from '../LoginForm/LoginForm';
 import { AuthContext } from '../FirebaseAuthProvider';
 import logo from '../../assets/logo.png';
+import logoImage from "../../assets/pna.png";
 import './Navbar.css';
 
 const Navbar = () => {
@@ -16,7 +17,7 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <div className="logo-container">
-        <img src={logo} alt="Logo" className="logo" />
+        <img src={logoImage} alt="Logo" className="logo" />
         <Link to="/" className="navbar-brand">
           Turnos
         </Link>
