@@ -228,10 +228,26 @@ const TurnoForm = () => {
   const renderCalendarIcon = () => (
     <Calendar size={18} color="#2c3e50" className="calendar-icon" />
   );
+  const MAX_WEEKLY_BOOKINGS = 2;
+const MAX_DAILY_BOOKINGS = 1;
 
   return (
     <div className="container-turnform">
       <h2>Crear turno</h2>
+
+
+
+   
+ 
+      
+      <div className="booking-rules bg-blue-50 p-4 rounded-lg mb-6">
+        <h3 className="text-lg font-semibold mb-2">Restricciones:</h3>
+        <ul className="list-disc pl-5">
+          <li>Máximo {MAX_DAILY_BOOKINGS} turno por día por persona</li>
+          <li>Máximo {MAX_WEEKLY_BOOKINGS} turnos por semana por persona</li>
+          
+        </ul>
+      </div>
 
       <form onSubmit={handleSubmit(onSubmit)} className="form-vertical">
         <InputField
