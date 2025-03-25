@@ -6,173 +6,183 @@ const Home = () => {
 
   const categories = [
     {
-      title: "Habilitación Náutico Deportiva",
+      title: "Licencia Náutica Deportiva",
       data: [
         {
-          item: "Requisitos para el Carnet Náutico",
+          item: "Requisitos para la Tarjeta Náutica",
           description: [
-            "Presentar Copia del acta examen",
+            "Aportar copia del informe del examen",
             "Certificado médico",
-            "2 Fotos color Fondo Celeste de Frente",
-            "Fotocopia D.N.I. ",
-            "Constancia de CUIL",
+            "2 fotos a color con fondo azul claro del anverso",
+            "Fotocopia del DNI",
+            "Certificado del CUIL",
           ],
           link: "https://drive.google.com/file/d/1B3FK59BM_N7OM3r301QClbyTBvF7bA_J/view?usp=drive_link",
         },
       ],
     },
     {
-      title: "Renovación Náutico Deportiva",
+      title: "Renovación Náutica Deportiva",
       data: [
         {
           item: "Renovación",
-          description: ["Certificado Náutico VENCIDO / o Constancia de Perdida/Robo/Extravió ",
-            "Certificado Médico ",
-            "2  Fotos color Fondo Celeste de Frente",
-            "Fotocopia DNI",
-            "	Constancia cuil."
+          description: [
+            "Certificado Náutico Caducado / o Certificado de Pérdida/Robado/Extraviado",
+            "Certificado Médico",
+            "2 fotos a color con fondo azul claro del anverso",
+            "Fotocopia del DNI",
+            "Constancia CUIL"
           ],
           link: "https://drive.google.com/file/d/16VwkwAJ4XGISAJYP34Jpd0BR1ZikBwWT/view?usp=drive_link",
         },
       ],
     },
     {
-      title: "Tasa Fija Anual",
+      title: "Impuesto Anual Fijo",
       data: [
         {
-          item: "Tasa Fija Anual",
-          description: ["Busque su embarcacion e imprima las boletas"],
+          item: "Impuesto Anual Fijo",
+          description: ["Busque su embarcación e imprima los comprobantes"],
           link: "https://erecauda.prefecturanaval.gob.ar/erecauda/bb_form.php",
         },
       ],
     },
     {
-      title: "Autorizacion de manejo",
+      title: "Autorización de Manejo",
       data: [
         {
-          item: "Autorizacion de manejo",
-          description: ["Formulario: Firma certificada por Escribano y Legalizada por el Colegio de Escribanos, o presentarse titular y certifica firma en Oficina de POLINAVE.",
-            "Fotocopias del Certificado de Matrícula ",
-            "Fotocopia del DNI ",
-            "Fotocopia Habilitación Náutica Deportiva",
-            "Constancia de CUIL O CUIT "
+          item: "Autorización de Manejo",
+          description: [
+            "Formulario: Firma certificada por Escribano y Legalizada por el Colegio de Escribanos, o presentar al titular y certificar la firma en la Oficina de POLINAVE.",
+            "Fotocopias del Certificado de Matriculación",
+            "Fotocopia del DNI",
+            "Fotocopia de la Licencia Náutica Deportiva",
+            "Constancia de CUIL o CUIT"
           ],
           link: "https://drive.google.com/file/d/1fcJU4kom8dbFNXhpJzPGhJk1egFSPJKq/view?usp=drive_link",
         },
       ],
     },
     {
-      title: "Cambio retiro de motor embarcación jurisdiccional ",
+      title: "Cambio de baja de motor de embarcación jurisdiccional",
       data: [
         {
-          item: "Cambio retiro de motor",
-          description: ["Formulario Nº 003 RNBU CERTIFICADO  por escribano público y COLEGIO",
+          item: "Cambio de baja de motor",
+          description: [
+            "Formulario N.° 003 RNBU CERTIFICADO por escribano público y COLEGIO",
             "Factura original de compra del motor con sello y firma de la entidad vendedora (en caso de instalación – cambio de motor).",
-            "Fotocopia DNI ",
-            "Constancia de CUIL o CUIT",
-            "Fotocopia de un servicio "
+            "Fotocopia del DNI",
+            "Comprobante de CUIL o CUIT",
+            "Fotocopia de un servicio"
           ],
           link: "https://drive.google.com/file/d/1ScytuzWXVHPKYPqAKyjSOiUqWbDXNn95/view?usp=drive_link",
         },
       ],
     },
     {
-      title: "Cambio retiro de motor embarcacion REY ",
+      title: "Cambio - retirada de motor de embarcación REY",
       data: [
         {
-          item: "Cambio retiro de motor",
-          description: ["Formulario Nº 003 RNBU CERTIFICADO  por escribano público y COLEGIO",
-            "Factura original de compra del motor con sello y firma de la entidad vendedora (en caso de instalación – cambio de motor).",
-            "Fotocopia DNI ",
-            "Constancia de CUIL o CUIT",
-            "Fotocopia de un servicio "
+          item: "Cambio - retirada de motor",
+          description: [
+            "Formulario n.º 003 RNBU CERTIFICADO por un registrador público y COLEGIO",
+            "Factura original de compra del motor con sello y firma de la entidad vendedora (en caso de instalación - cambio de motor).",
+            "Fotocopia del DNI",
+            "Certificado de CUIL o CUIT",
+            "Fotocopia de un servicio"
           ],
           link: "https://drive.google.com/file/d/10LbVQ1IGzIp4aoFmHIX1otuwpUERqGs8/view?usp=drive_link",
         },
       ],
     },
     {
-      title: "Estado de  dominio e inhibiciones",
+      title: "Situación de propiedad e inhibiciones",
       data: [
         {
-          item: "Tasa Fija Anual",
-          description: ["Formulario Nº 004 RNBU por duplicado",
-            "Agregar copia CERTIFICADO DE MATRICULA",
-            "Fotocopia DNI ",
-            "Constancia de CUIL o CUIT"
+          item: "Impuesto Fijo Anual",
+          description: [
+            "Formulario N° 004 RNBU por duplicado",
+            "Agregar copia del CERTIFICADO DE MATRÍCULA",
+            "Fotocopia del DNI",
+            "Certificado de CUIL o CUIT"
           ],
           link: "https://drive.google.com/file/d/1b9rvXOFI-kdj1Gkkublk4uVE-2QnWiwy/view?usp=drive_link",
         },
       ],
     },
     {
-      title: "Inscripcion embarcacion REY de 2 a 9 toneladas",
+      title: "Matrícula de embarcaciones REY de 2 a 9 toneladas",
       data: [
         {
-          item: "Inscripcion embarcacion REY",
-          description: ["Formulario Nº 001 RNBU CERTIFICADO",
-            "Factura original de compra del casco y del motor ",
+          item: "Matrícula de embarcaciones REY de 2 a 9 toneladas",
+          description: [
+            "Formulario N° 001 RNBU CERTIFICADO",
+            "Factura original de compra del casco y motor",
             "Certificado de aprobación de prototipo",
-            "Certificado de conformidad de serie",
-            "Certificado de registro de empresa ante PNA",
-            "Fotocopia DNI",
-            "Constancia de CUIL",
-            "Fotocopia de un servicio ",
-            "Traer la embarcación a la dependencia para inspección (DEBERÁ TENER NOMBRE Y REY E/T AMBOS LADOS) (12 CM DE ALTO COMO MÍNIMO)"],
+            "Certificado de conformidad serial",
+            "Certificado de inscripción de empresa ante PNA",
+            "Fotocopia del DNI",
+            "Certificado CUIL",
+            "Fotocopia de un servicio",
+            "Traer la embarcación a las instalaciones para inspección (DEBE TENER NOMBRE Y/O NOMBRE DEL REY EN AMBOS LADOS) (ALTURA MÍNIMA DE 12 CM)"
+          ],
           link: "https://erecauda.prefecturanaval.gob.ar/erecauda/bb_form.php",
         },
       ],
     },
     {
-      title: "Inscripción de una embarcación jurisdiccional",
+      title: "Matrícula de una embarcación jurisdiccional",
       data: [
         {
-          item: "Inscripción jurisdiccional",
-          description: ["Formulario Nº 1 CERTIFICADO ",
-            "Factura original de compra de la embarcación ",
-            "Fotocopia DNI ",
-            "Fotocopia de un servicio ",
-            "Constancia de Cuil ",
-            "Traer la embarcación a la dependencia para inspección.- (DEBERÁ TENER NOMBRE Y CURU E/T AMBOS LADOS) (12 CM DE ALTO COMO MÍNIMO)"
+          item: "Matrícula jurisdiccional",
+          description: [
+            "Formulario N.° 1 CERTIFICADO",
+            "Factura original de compra de la embarcación",
+            "Fotocopia de DNI",
+            "Fotocopia de un documento de servicio",
+            "Comprobante de identidad",
+            "Traer la embarcación a las instalaciones para inspección.- (DEBE TENER NOMBRE Y NOMBRE EN AMBOS LADOS) (ALTURA MÍNIMA DE 12 CM)"
           ],
           link: "https://drive.google.com/file/d/1eKkgFO0imPg5d4oQKAP3ubZr85yFsNmm/view?usp=drive_link",
         },
       ],
     },
     {
-      title: "Transferencia embarcación REY",
+      title: "Traspaso de embarcación REY",
       data: [
         {
-          item: "Transferencia",
-          description: ["Formulario Nº 002 RNBU anverso y reverso CERTIFICADO",
-            "Formulario Nº 002 RNBU anverso y reverso CERTIFICADO  ",
-            "Fotocopia DNI de COMPRADOR y VENDEDOR",
-            "Fotocopia DNI conyugue del comprador",
-            "Constancia de CUIL ",
-            "Fotocopia de un servicio ",
-            "Formulario 381 (Nuevo Modelo) “Certificado de Bienes Registrales",
-            "Traer la embarcación a la dependencia para (DEBERÁ TENER NOMBRE Y N° DE MATRICULA AMBOS LADOS) (12 CM DE ALTO COMO MÍNIMO) "
+          item: "Traspaso",
+          description: [
+            "Formulario N° 002 RNBU anverso y reverso CERTIFICADO",
+            "Formulario N° 002 RNBU anverso y reverso CERTIFICADO",
+            "Fotocopia de cédula de identidad del comprador y del vendedor",
+            "Fotocopia de cédula de identidad del comprador",
+            "Certificado de CUIL",
+            "Fotocopia de un servicio",
+            "Formulario 381 (Nuevo Modelo) 'Certificado de Registro de Bienes'",
+            "Traer la embarcación al local para (DEBE TENER EL NOMBRE Y NÚMERO DE MATRÍCULA EN AMBOS LADOS) (MÍNIMO 12 CM DE ALTO)"
           ],
           link: "https://drive.google.com/file/d/1yjuNRto8k8rPFHW5HCIJy6yz2XBR1uU5/view?usp=drive_link",
         },
       ],
     },
     {
-      title: "Transferencia embarcación  jurisdiccionales",
+      title: "Transferencia uvar de jurisdicciones",
       data: [
         {
-          item: "Transferencia embarcación  jurisdiccionales",
-          description: ["Formulario Nº 2 CERTIFICADO",
-            "CERTIFICADO DE MATRICULA Y CONSTANCIA DE MATRICULA de la embarcación en original",
-            "copia DNI (a color preferentemente) del COMPRADOR y VENDEDOR",
-            "Constancia de CUIL ",
-            "Copia de un servicio ",
-            "Traer la embarcación a la dependencia para inspección.- (deberá tener nombre y N° de Matricula ambos lados) (12 cm de alto como mínimo) "
+          item: "Transferencia uvar de jurisdicciones",
+          description: [
+            "CERTIFICADO Formulario Nº 2",
+            "CERTIFICADO DE MATRÍCULA Y COMPROBANTE DE MATRÍCULA de la embarcación en original",
+            "Copia del DNI (preferentemente a color) del COMPRADOR y VENDEDOR",
+            "Comprobante de CUIL",
+            "Copia de un servicio",
+            "Traer la embarcación al local para su inspección.- (debe tener el nombre y el N.º de Matrícula en ambos lados) (altura mínima de 12 cm)"
           ],
           link: "https://drive.google.com/file/d/1cSIqQhGr1DTp4oW4RhyMUqu0-M9Mrh0X/view?usp=drive_link",
         },
       ],
-    },
+    }
   ];
 
   const handleCategoryChange = (event) => {
@@ -185,23 +195,47 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      <h1>Bienvenido al sistema de gestión de turnos</h1>
-      <p>
-        Este es el lugar donde puedes gestionar tus turnos de manera fácil y
-        rápida.
-      </p>
+      <header className="welcome-header">
+        <h1>Bienvenido al Sistema de Gestión de Trámites Náuticos</h1>
+        <p className="welcome-text">
+          Plataforma integral para la gestión de turnos y consultas relacionadas
+          con sus embarcaciones.
+        </p>
+      </header>
+
+      <section className="debt-query-section">
+        <div className="debt-query-container">
+          <h2>Consulta y Pago de Deudas</h2>
+          <p>
+            Para consultar y pagar los impuestos de su embarcación, diríjase al
+            sistema oficial de Prefectura Naval
+          </p>
+          <a
+            href="https://erecauda.prefecturanaval.gob.ar/erecauda/bb_form.php"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="payment-link"
+          >
+            <button className="query-button">
+              Consultar Deuda en Prefectura
+            </button>
+          </a>
+        </div>
+      </section>
 
       <section className="info-section">
-        <h2>Información General</h2>
+        <h2>Información de Trámites</h2>
+        <p>
+          Seleccione el trámite que desea realizar para ver los requisitos
+          necesarios.
+        </p>
         <div className="select-container">
-          <label htmlFor="category-select">Seleccione una categoría:</label>
           <select
             id="category-select"
             value={selectedCategory}
             onChange={handleCategoryChange}
           >
-            <option value="">Eliga el tema de su consulta</option>
-
+            <option value="">Seleccione el trámite que necesita</option>
             {categories.map((category, index) => (
               <option key={index} value={category.title}>
                 {category.title}
@@ -219,26 +253,31 @@ const Home = () => {
               <thead>
                 <tr>
                   <th>Trámite</th>
-                  <th>Documentos</th>
+                  <th>Documentos Requeridos</th>
                 </tr>
               </thead>
               <tbody>
                 {selectedData.data.map((item, idx) => (
                   <tr key={idx}>
-                    <td>{item.item}</td>
+                    <td className="procedure-name">{item.item}</td>
                     <td>
-                      <ul>
+                      <ul className="documents-list">
                         {item.description.map((desc, dIdx) => (
                           <li key={dIdx}>{desc}</li>
                         ))}
+                      </ul>
+                      {item.link && (
                         <a
                           href={item.link}
                           target="_blank"
                           rel="noopener noreferrer"
+                          className="download-link"
                         >
-                          <button>Descarga</button>
+                          <button className="download-button">
+                            Descargar Formulario
+                          </button>
                         </a>
-                      </ul>
+                      )}
                     </td>
                   </tr>
                 ))}

@@ -1,157 +1,291 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap');
-
+/* ===== ESTILOS GENERALES ===== */
 .home-container {
-  padding: 2rem;
   max-width: 1200px;
-  margin: 5rem auto;
-  background-color: #ecf0f1;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  font-family: 'Roboto', sans-serif;
-}
-
-h1 {
-  text-align: center;
-  margin-bottom: 1.5rem;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  font-family: 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: #2c3e50;
-  font-size: 2.5rem;
-  font-weight: 500;
+  line-height: 1.6;
 }
 
-p {
+/* ===== ENCABEZADO ===== */
+.welcome-header {
   text-align: center;
-  margin-bottom: 2rem;
-  color: #7f8c8d;
-  font-size: 1.25rem;
-}
-
-.info-section {
   margin-bottom: 3rem;
+  padding: 2.5rem 1.5rem;
+  background: linear-gradient(135deg, #1e88e5, #0d47a1);
+  color: white;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
 }
 
-h2 {
-  text-align: center;
-  margin-bottom: 1.5rem;
-  color: #2c3e50;
-  font-size: 2rem;
+.welcome-header h1 {
+  font-size: 2.3rem;
+  margin-bottom: 1.2rem;
   font-weight: 500;
+  line-height: 1.3;
+}
+
+.welcome-text {
+  font-size: 1.15rem;
+  opacity: 0.92;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* ===== SECCIÓN DE CONSULTA DE DEUDA ===== */
+.debt-query-section {
+  background-color: #f8f9fa;
+  padding: 2.5rem;
+  border-radius: 12px;
+  margin-bottom: 3.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e0e3e6;
+  text-align: center;
+}
+
+.debt-query-container {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.debt-query-container h2 {
+  color: #1565c0;
+  margin-bottom: 1.2rem;
+  font-size: 1.6rem;
+  font-weight: 500;
+}
+
+.debt-query-container p {
+  color: #546e7a;
+  margin-bottom: 2rem;
+  font-size: 1.05rem;
+  line-height: 1.5;
+}
+
+.query-button {
+  background: linear-gradient(to right, #1976d2, #0d47a1);
+  color: white;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: 500;
+  transition: all 0.3s;
+  display: inline-block;
+  min-width: 250px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.query-button:hover {
+  background: linear-gradient(to right, #1565c0, #0b3d91);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.query-button:active {
+  transform: translateY(0);
+}
+
+/* ===== SECCIÓN DE INFORMACIÓN ===== */
+.info-section {
+  margin-bottom: 3.5rem;
+  text-align: center;
+}
+
+.info-section h2 {
+  color: #1565c0;
+  margin-bottom: 1.5rem;
+  font-size: 1.6rem;
+  font-weight: 500;
+}
+
+.info-section p {
+  color: #546e7a;
+  margin-bottom: 2rem;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .select-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-bottom: 2rem;
-}
-
-.select-container label {
-  font-size: 1.25rem;
-  color: #2c3e50;
-  margin-bottom: 0.5rem;
+  margin: 2rem auto 0;
+  max-width: 600px;
 }
 
 .select-container select {
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  border-radius: 8px;
-  border: 1px solid #bdc3c7;
   width: 100%;
-  max-width: 300px;
+  padding: 0.9rem 1.2rem;
+  border: 2px solid #cfd8dc;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: white;
+  transition: all 0.3s;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1.2rem center;
+  background-size: 1.2rem;
 }
 
+.select-container select:focus {
+  outline: none;
+  border-color: #42a5f5;
+  box-shadow: 0 0 0 3px rgba(66, 165, 245, 0.2);
+}
+
+/* ===== TABLA DE TRÁMITES ===== */
 .tables-section {
-  margin-bottom: 2rem;
+  margin-top: 3.5rem;
+  animation: fadeIn 0.5s ease-out;
 }
 
 .table-container {
-  margin-bottom: 2rem;
-}
-
-h3 {
-  color: #2c3e50;
-  font-size: 1.75rem;
-  font-weight: 500;
-  margin-bottom: 1rem;
-  text-align: center;
+  overflow-x: auto;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  margin: 0 auto;
+  max-width: 1000px;
 }
 
 .data-table {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 2rem;
-}
-
-.data-table th,
-.data-table td {
-  padding: 1rem;
-  text-align: left;
-  border-bottom: 1px solid #bdc3c7;
+  background-color: white;
 }
 
 .data-table th {
-  background-color: #2c3e50;
-  color: #ecf0f1;
-  font-size: 1rem;
+  background: linear-gradient(to right, #1976d2, #1565c0);
+  color: white;
+  padding: 1.2rem;
+  text-align: left;
   font-weight: 500;
+  font-size: 1.05rem;
 }
 
 .data-table td {
-  font-size: 1rem;
-  color: #2c3e50;
+  padding: 1.3rem 1.2rem;
+  border-bottom: 1px solid #eceff1;
+  vertical-align: top;
 }
 
-ul {
-  padding-left: 1.25rem;
+.data-table tr:nth-child(even) {
+  background-color: #f8f9fa;
 }
 
-li {
-  font-size: 1rem;
-  color: #7f8c8d;
-  margin-bottom: 0.5rem;
+.data-table tr:hover {
+  background-color: #f1f8fe;
 }
 
-button {
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  color: #ffffff;
-  background-color: #4a90e2;
+.procedure-name {
+  font-weight: 600;
+  color: #1565c0;
+  min-width: 220px;
+  font-size: 1.05rem;
+}
+
+.documents-list {
+  margin: 0;
+  padding-left: 1.3rem;
+  list-style-type: none;
+}
+
+.documents-list li {
+  margin-bottom: 0.7rem;
+  position: relative;
+  padding-left: 1.6rem;
+  line-height: 1.5;
+}
+
+.documents-list li::before {
+  content: "•";
+  color: #2196f3;
+  font-weight: bold;
+  font-size: 1.4rem;
+  position: absolute;
+  left: 0;
+  top: -0.2rem;
+}
+
+.download-button {
+  background: linear-gradient(to right, #4caf50, #2e7d32);
+  color: white;
+  padding: 0.8rem 1.5rem;
   border: none;
   border-radius: 8px;
+  margin-top: 1.2rem;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: all 0.3s;
 }
 
-button:hover {
-  background-color: #357abd;
+.download-button:hover {
+  background: linear-gradient(to right, #43a047, #1b5e20);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+/* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 768px) {
   .home-container {
-    padding: 1rem;
+    padding: 1.2rem;
   }
-
-  h1 {
-    font-size: 2rem;
+  
+  .welcome-header {
+    padding: 1.8rem 1.2rem;
+    border-radius: 10px;
   }
-
-  p {
+  
+  .welcome-header h1 {
+    font-size: 1.9rem;
+  }
+  
+  .debt-query-section {
+    padding: 1.8rem;
+  }
+  
+  .debt-query-container h2 {
+    font-size: 1.4rem;
+  }
+  
+  .query-button {
+    padding: 0.9rem 1.5rem;
     font-size: 1rem;
+    min-width: 200px;
   }
-
-  h2 {
-    font-size: 1.5rem;
-  }
-
-  h3 {
-    font-size: 1.5rem;
-  }
-
+  
   .data-table th,
   .data-table td {
-    padding: 0.5rem;
+    padding: 1rem;
   }
+  
+  .documents-list li {
+    padding-left: 1.4rem;
+  }
+}
 
+@media (max-width: 480px) {
+  .welcome-header h1 {
+    font-size: 1.6rem;
+  }
+  
+  .info-section h2,
+  .debt-query-container h2 {
+    font-size: 1.3rem;
+  }
+  
   .select-container select {
+    padding: 0.8rem 1rem;
+  }
+  
+  .query-button {
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .download-button {
     width: 100%;
   }
 }
