@@ -13,15 +13,28 @@ const Footer = () => {
         <div className="footer-section">
           <h4>Enlaces útiles</h4>
           <ul>
-            <li><a href="/about">Acerca de nosotros</a></li>
-            <li><a href="/faq">Preguntas frecuentes</a></li>
-            <li><a href="/support">Soporte</a></li>
+           
+            <li><a href="https://servi-tec-six.vercel.app/">Soporte</a></li>
           </ul>
         </div>
-       
       </div>
+      
       <div className="footer-bottom">
-        <p>&copy; 2024 Empresa. Todos los derechos reservados.</p>
+        <p>&copy; 2024 Polinave. Todos los derechos reservados.</p>
+        
+        {/* Línea de créditos de desarrollo */}
+        <div className="developer-credits">
+          <p>Desarrollado por {' '}
+            <a 
+              href="https://servi-tec-six.vercel.app/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="developer-link"
+            >
+              ServiTec
+            </a>
+          </p>
+        </div>
       </div>
     </footer>
   );
